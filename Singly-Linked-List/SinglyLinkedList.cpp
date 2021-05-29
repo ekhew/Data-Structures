@@ -192,7 +192,7 @@ Node<ItemType> *SinglyLinkedList<ItemType>::getPointerTo(size_t position) const
 {
     Node<ItemType> *get_ptr = nullptr; //create a new pointer to traverse the list; return 'nullptr' if there is no node at position
 
-    if(position <= item_count_ && position > 0) //if the position exists
+    if(position <= item_count_ && position > 0) //if the position exists and greater than 0
     {
         get_ptr = head_ptr_;
         //traverse to the node directly before the one at position, since its 'next_' is the pointer we want
