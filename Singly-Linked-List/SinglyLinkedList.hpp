@@ -49,17 +49,17 @@ public:
     void clear();
 
     /*
-        returns the current number of items in the list (current number of nodes)
-        @return item_count_
-    */
-    size_t getLength() const;
-
-    /*
         returns the item at the specified position
         @param position of the item in the list
         @return a copy of the item at the specified position
     */
     ItemType getItemAtPos(size_t position) const;
+
+    /*
+        returns the current number of items in the list (current number of nodes)
+        @return item_count_
+    */
+    size_t getLength() const;
 
     /*
         checks if the list is empty

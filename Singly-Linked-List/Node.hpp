@@ -37,16 +37,16 @@ public:
     void setItem(const ItemType &item);
 
     /*
-        sets the pointer to the next node in the calling node
-        @param next, pointer to the next node
-    */
-    void setNext(Node<ItemType> *next);
-
-    /*
         returns the item in the calling node
         @return a copy of the item in the node
     */
     ItemType getItem() const;
+
+    /*
+        sets the pointer to the next node in the calling node
+        @param next, pointer to the next node
+    */
+    void setNext(Node<ItemType> *next);
 
     /*
         return the pointer to the next node

@@ -142,12 +142,6 @@ void SinglyLinkedList<ItemType>::clear()
 }
 
 template<typename ItemType>
-size_t SinglyLinkedList<ItemType>::getLength() const
-{
-    return item_count_;
-}
-
-template<typename ItemType>
 ItemType SinglyLinkedList<ItemType>::getItemAtPos(size_t position) const
 {
     Node<ItemType> *pos_ptr = getPointerTo(position); //pointer to the node at the specified position
@@ -160,6 +154,18 @@ ItemType SinglyLinkedList<ItemType>::getItemAtPos(size_t position) const
     {
         return pos_ptr->getItem();
     }
+}
+
+template<typename ItemType>
+size_t SinglyLinkedList<ItemType>::getLength() const
+{
+    return item_count_;
+}
+
+template<typename ItemType>
+bool SinglyLinkedList<ItemType>::isEmpty() const
+{
+    return head_ptr_ == nullptr; //if head_ptr_ is equal to 'nullptr', then the list is empty
 }
 
 template<typename ItemType>
@@ -179,12 +185,6 @@ void SinglyLinkedList<ItemType>::display() const
     {
         std::cout << "List is empty!" << std::endl;
     }
-}
-
-template<typename ItemType>
-bool SinglyLinkedList<ItemType>::isEmpty() const
-{
-    return head_ptr_ == nullptr; //if head_ptr_ is equal to 'nullptr', then the list is empty
 }
 
 template<typename ItemType>
