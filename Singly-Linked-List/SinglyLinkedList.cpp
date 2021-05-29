@@ -190,9 +190,9 @@ void SinglyLinkedList<ItemType>::display() const
 template<typename ItemType>
 Node<ItemType> *SinglyLinkedList<ItemType>::getPointerTo(size_t position) const
 {
-    Node<ItemType> *get_ptr = nullptr; //create a new pointer to traverse the list; return 'nullptr' if there is node node at position
+    Node<ItemType> *get_ptr = nullptr; //create a new pointer to traverse the list; return 'nullptr' if there is no node at position
 
-    if(position <= item_count_) //if the position exists
+    if(position <= item_count_ && position > 0) //if the position exists
     {
         get_ptr = head_ptr_;
         //traverse to the node directly before the one at position, since its 'next_' is the pointer we want

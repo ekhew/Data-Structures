@@ -21,6 +21,12 @@ void Node<ItemType>::setItem(const ItemType &item)
 }
 
 template<typename ItemType>
+ItemType Node<ItemType>::getItem() const
+{
+    return item_;
+}
+
+template<typename ItemType>
 void Node<ItemType>::setNext(Node<ItemType> *next)
 {
     next_ptr_ = next;
@@ -30,12 +36,6 @@ template<typename ItemType>
 void Node<ItemType>::setPrev(Node<ItemType> *previous)
 {
     prev_ptr_ = previous;
-}
-
-template<typename ItemType>
-ItemType Node<ItemType>::getItem() const
-{
-    return item_;
 }
 
 template<typename ItemType>

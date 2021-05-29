@@ -21,7 +21,7 @@ public:
         copy constructor
         @param list to be copied
     */
-    DoublyLinkedList(const SinglyLinkedList<ItemType> &list);
+    DoublyLinkedList(const DoublyLinkedList<ItemType> &list);
 
     /*
         destructor
@@ -50,17 +50,17 @@ public:
     void clear();
 
     /*
-        returns the current number of items in the list (current number of nodes)
-        @return item_count_
-    */
-    size_t getLength() const;
-
-    /*
         returns the item at the specified position
         @param position of the item in the list
         @return a copy of the item at the specified position
     */
     ItemType getItemAtPos(size_t position) const;
+
+    /*
+        returns the current number of items in the list (current number of nodes)
+        @return item_count_
+    */
+    size_t getLength() const;
 
     /*
         checks if the list is empty
@@ -72,6 +72,11 @@ public:
         prints every element on a single line
     */
     void display() const;
+
+    /*
+        prints every element on a single line, but in reverse order
+    */
+    void displayBackwards() const;
 private:
     Node<ItemType> *head_ptr_; //pointer to the first node in the list
     Node<ItemType> *tail_ptr_; //pointer to the last node in the list
