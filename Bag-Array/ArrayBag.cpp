@@ -90,7 +90,7 @@ bool ArrayBag<ItemType>::isFull() const
 }
 
 template<typename ItemType>
-void ArrayBag<ItemType>::display()
+void ArrayBag<ItemType>::display() const
 {
     for(int i = 0; i < item_count_; i++)
     {

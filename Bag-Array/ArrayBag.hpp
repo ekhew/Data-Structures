@@ -72,7 +72,7 @@ public:
     /*
         prints each individual element in the bag on a separate line
     */
-    void display();
+    void display() const;
 
 private:
     static const int CAPACITY = 20; //capacity of the array bag
