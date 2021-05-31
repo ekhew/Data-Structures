@@ -185,7 +185,7 @@ void SinglyLinkedList<ItemType>::display() const
     }
     else
     {
-        std::cout << "List is empty!" << std::endl;
+        std::cout << "List is empty!";
     }
 }
 

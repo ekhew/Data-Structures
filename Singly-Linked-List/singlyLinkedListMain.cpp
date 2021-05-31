@@ -21,7 +21,7 @@ int main()
     myList.insert(4, "four");
     myList.insert(5, "five");
     myList.insert(6, "six");
-    //myList.insert(3, "two-and-a-half");
+    myList.insert(3, "two-and-a-half");
 
     myList.remove(0);
     //myList.remove(4);
@@ -29,7 +29,7 @@ int main()
 
     cout << "Display: ";
     myList.display();
-    cout << endl << endl << "Empty?: " << myList.isEmpty() << endl;
+    cout << endl << "Empty?: " << myList.isEmpty() << endl;
     cout << "Length: " << myList.getLength() << endl;
 
     try
@@ -45,15 +45,17 @@ int main()
         copy constructor test
     */
     SinglyLinkedList<string> myCopiedList = myList;
-    cout << "Current Size (Copied List): " << myCopiedList.getLength() << endl;
     cout << endl << "Display (Copied List): ";
     myCopiedList.display();
-    cout << endl << endl;
+    cout << endl << "Empty? (Copied List): " << myCopiedList.isEmpty() << endl;
+    cout << "Length (Copied List): " << myCopiedList.getLength() << endl << endl;
 
     /*
         clear method test
     */
     myList.clear();
-    cout << "Empty? (After clear): " << myList.isEmpty() << endl;
+    cout << "Display (Afetr clear): ";
+    myCopiedList.display();
+    cout << endl << "Empty? (After clear): " << myList.isEmpty() << endl;
     cout << "Length (After clear): " << myList.getLength() << endl;
 }
