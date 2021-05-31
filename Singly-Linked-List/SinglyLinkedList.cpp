@@ -84,6 +84,7 @@ bool SinglyLinkedList<ItemType>::remove(size_t position)
             Node<ItemType> *temp_ptr = head_ptr_;
 
             head_ptr_ = nullptr;
+            temp_ptr->setNext(nullptr);
             delete temp_ptr;
             temp_ptr = nullptr;
         }
@@ -92,6 +93,7 @@ bool SinglyLinkedList<ItemType>::remove(size_t position)
             Node<ItemType> *temp_ptr = head_ptr_;
 
             head_ptr_ = head_ptr_->getNext(); //move the 'head_ptr_' to the second node in the list
+            temp_ptr->setNext(nullptr);
             delete temp_ptr;
             temp_ptr = nullptr;
         }
