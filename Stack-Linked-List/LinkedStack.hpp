@@ -60,7 +60,7 @@ public:
     bool isEmpty() const;
 
     /*
-        prints every element on a single line
+        prints a copy of the item at the top of the stack
     */
     void peek() const;
 private:
