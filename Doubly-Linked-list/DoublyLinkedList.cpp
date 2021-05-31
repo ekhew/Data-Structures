@@ -183,7 +183,7 @@ void DoublyLinkedList<ItemType>::display() const
     }
     else
     {
-        std::cout << "List is empty!" << std::endl;
+        std::cout << "List is empty!";
     }
 }
 
@@ -202,7 +202,7 @@ void DoublyLinkedList<ItemType>::displayBackwards() const
     }
     else
     {
-        std::cout << "List is empty!" << std::endl;
+        std::cout << "List is empty!";
     }
 }
 

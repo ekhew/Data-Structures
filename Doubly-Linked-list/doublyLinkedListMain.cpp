@@ -25,13 +25,13 @@ int main()
 
     myList.remove(0);
     //myList.remove(4);
-    //myList.remove(2);
+    myList.remove(2);
 
     cout << "Display: ";
     myList.display();
     cout << endl << "Display Backwards: ";
     myList.displayBackwards();
-    cout << endl << endl << "Empty?: " << myList.isEmpty() << endl;
+    cout << endl << "Empty?: " << myList.isEmpty() << endl;
     cout << "Length: " << myList.getLength() << endl;
 
     try
@@ -47,17 +47,21 @@ int main()
         copy constructor test
     */
     DoublyLinkedList<string> myCopiedList = myList;
-    cout << "Current Size (Copied List): " << myCopiedList.getLength() << endl;
     cout << endl << "Display (Copied List): ";
     myCopiedList.display();
     cout << endl << "Display Backwards (Copied List): ";
-    myList.displayBackwards();
-    cout << endl << endl;
+    myCopiedList.displayBackwards();
+    cout << endl << "Empty? (Copied List): " << myCopiedList.isEmpty() << endl;
+    cout << "Length (Copied List): " << myCopiedList.getLength() << endl << endl;
 
     /*
         clear method test
     */
     myList.clear();
-    cout << "Empty? (After clear): " << myList.isEmpty() << endl;
+    cout << "Display (Copied List): ";
+    myList.display();
+    cout << "Display Backwards (Copied List): ";
+    myList.displayBackwards();
+    cout << endl << "Empty? (After clear): " << myList.isEmpty() << endl;
     cout << "Length (After clear): " << myList.getLength() << endl;
 }
