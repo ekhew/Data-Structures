@@ -37,7 +37,7 @@ public:
     void clear();
 
     /*
-        returns the current number of items in the stack (current number of nodes)
+        returns the current number of items in the stack
         @return item_count_
     */
     size_t size() const;
@@ -61,7 +61,7 @@ public:
 private:
     static const int CAPACITY = 20; //capacity of the array stack
     ItemType stack_[CAPACITY]; //the array stack itself
-    size_t top_index_; //index of the topmost item
+    int top_index_; //index of the topmost item
     size_t item_count_; //total number of items currently in the stack
 };
 
