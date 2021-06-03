@@ -29,7 +29,7 @@ public:
     ~LinkedQueue();
 
     /*
-        inserts a new item into the queue
+        inserts a new item into the back of the queue
         @param new_item, item to be inserted
         @return true if the item was successfully inserted, and false otherwise
     */

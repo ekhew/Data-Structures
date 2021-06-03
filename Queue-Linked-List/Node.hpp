@@ -1,7 +1,7 @@
 /*
-Title: Singly Linked List Node
+Title: Linked Queue Node
 Author: Edwin Khew
-Description: Singly linked list node class declaration.
+Description: Linked queue node class declaration.
 Date Created: 6/1/2021
 */
 
@@ -55,7 +55,7 @@ public:
     Node<ItemType> *getNext() const;
 private:
     ItemType item_; //item that is stored in the node
-    Node<ItemType> *next_ptr_; //pointer to the next node in the linked list
+    Node<ItemType> *next_ptr_; //pointer to the next node in the queue
 };
 
 #include "Node.cpp"
