@@ -69,7 +69,7 @@ bool ArrayStack<ItemType>::isFull() const
 template<typename ItemType>
 void ArrayStack<ItemType>::peek() const
 {
-    if(top_index_ != -1) //if the stack is not empty
+    if(!isEmpty()) //can only peek at the top if the stack is not empty
     {
         std::cout << stack_[top_index_];
     }
