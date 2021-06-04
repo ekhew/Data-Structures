@@ -69,7 +69,7 @@ public:
 private:
     ItemType item_; //item that is stored in the node
     Node<ItemType> *next_ptr_; //pointer to the next node in the linked list
-    Node<ItemType> *prev_ptr_; //pointer to the next node in the linked list
+    Node<ItemType> *prev_ptr_; //pointer to the previous node in the linked list
 };
 
 #include "Node.cpp"
