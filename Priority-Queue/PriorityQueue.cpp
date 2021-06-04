@@ -68,7 +68,7 @@ bool PriorityQueue<ItemType>::enqueue(const ItemType &new_item, int priority)
     {
         Node<ItemType> *traverse_ptr = front_ptr_; //pointer that will traverse the queue, starting from the front
 
-        //look at the priority of the next node; stop traversing once the priority of the next node is >= the priority of the new node
+        //look at the priority of the next node; stop traversing once the priority of the next node is <= the priority of the new node
         while(traverse_ptr->getNext()->getPriority() <= new_node_ptr->getPriority())
         {
             traverse_ptr = traverse_ptr->getNext(); //traverse to the next node
