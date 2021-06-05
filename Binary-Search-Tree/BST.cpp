@@ -86,7 +86,7 @@ void BST<ItemType>::postorderTraverse()
 
 
 /*
-    Helper functions below
+Helper functions below
 */
 
 
@@ -127,41 +127,32 @@ void BST<ItemType>::destroyTree(Node<ItemType> *subtree_ptr)
 template<typename ItemType>
 void BST<ItemType>::preorderHelper(Node<ItemType> *root)
 {
-    //base case
-    if(root == nullptr)
+    if(root != nullptr) //base case
     {
-        return;
+        std::cout << root->getItem() << " "; //visit the node
+        preorderHelper(root->getLeft()); //traverse the left subtree
+        preorderHelper(root->getRight()); //traverse the right subtree
     }
-
-    std::cout << root->getItem() << " "; //visit the node
-    preorderHelper(root->getLeft()); //traverse the left subtree
-    preorderHelper(root->getRight()); //traverse the right subtree
 }
 
 template<typename ItemType>
 void BST<ItemType>::inorderHelper(Node<ItemType> *root)
 {
-    //base case
-    if(root == nullptr)
+    if(root != nullptr) //base case
     {
-        return;
+        inorderHelper(root->getLeft()); //traverse the left subtree
+        std::cout << root->getItem() << " "; //visit the node
+        inorderHelper(root->getRight()); //traverse the right subtree
     }
-
-    inorderHelper(root->getLeft()); //traverse the left subtree
-    std::cout << root->getItem() << " "; //visit the node
-    inorderHelper(root->getRight()); //traverse the right subtree
 }
 
 template<typename ItemType>
 void BST<ItemType>::postorderHelper(Node<ItemType> *root)
 {
-    //base case
-    if(root == nullptr)
+    if(root != nullptr) //base case
     {
-        return;
+        postorderHelper(root->getLeft()); //traverse the left subtree
+        postorderHelper(root->getRight()); //traverse the right subtree
+        std::cout << root->getItem() << " "; //visit the node
     }
-
-    postorderHelper(root->getLeft()); //traverse the left subtree
-    postorderHelper(root->getRight()); //traverse the right subtree
-    std::cout << root->getItem() << " "; //visit the node
 }
