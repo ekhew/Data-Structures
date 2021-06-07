@@ -53,6 +53,12 @@ public:
     size_t nodeCount() const;
 
     /*
+        checks the height of the tree
+        @return an integer representing the height of the tree
+    */
+    size_t getHeight() const;
+
+    /*
         checks if the tree is empty
         @return true if the tree is empty, and false otherwise
     */
@@ -81,7 +87,18 @@ public:
     void postorderTraverse();
 private:
     Node<ItemType> *root_ptr_; //pointer to the root node of the tree
-    size_t node_count_; //total number of items currently in the tree
+
+    /*
+        copy constructor helper
+        @param old_tree_root_ptr, pointer to the root node of the tree to be copied
+    */
+    Node<ItemType> *copyConstructorHelper(Node<ItemType> *root) const;
+
+    /*
+        removes every node in the tree
+        @param subtree_ptr, pointer to the root node of a subtree to be deleted
+    */
+    void destroyTreeHelper(Node<ItemType> *subtree_ptr);
 
     /*
         inserts a node into the tree
@@ -98,16 +115,23 @@ private:
     Node<ItemType> *removeHelper(Node<ItemType> *subtree_ptr, const ItemType &item);
 
     /*
+        checks the number of nodes currently in the tree
+        @return an integer representing the number of nodes currently in the tree
+    */
+    size_t nodeCountHelper(Node<ItemType> *root) const;
+
+    /*
+        checks the height of the tree
+        @param root, pointer to the root node of a subtree
+        @return an integer representing the height of the tree
+    */
+    size_t getHeightHelper(Node<ItemType> *root) const;
+
+    /*
         finds the inorder successor of the specified node
         @param root, pointer to the node to find the inorder successor of
     */
     Node<ItemType> *inorderSuccessor(Node<ItemType> *root) const;
-
-    /*
-        removes every node in the tree
-        @param subtree_ptr, pointer to the root node of a subtree to be deleted
-    */
-    void destroyTree(Node<ItemType> *subtree_ptr);
 
     /*
         searches the tree for the specified item

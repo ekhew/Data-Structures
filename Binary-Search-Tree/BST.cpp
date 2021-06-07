@@ -6,20 +6,18 @@ Date Created: 6/4/2021
 */
 
 template<typename ItemType>
-BST<ItemType>::BST():root_ptr_(nullptr), node_count_(0) { }
+BST<ItemType>::BST():root_ptr_(nullptr) { }
 
-/*
 template<typename ItemType>
-BST<ItemType>::BST(const BinaryTree<ItemType> &tree)
+BST<ItemType>::BST(const BST<ItemType> &tree)
 {
-
+    root_ptr_ = copyConstructorHelper(tree.root_ptr_);
 }
-*/
 
 template<typename ItemType>
 BST<ItemType>::~BST()
 {
-    clear();
+    destroyTreeHelper(root_ptr_);
 }
 
 template<typename ItemType>
@@ -35,8 +33,6 @@ void BST<ItemType>::insert(const ItemType &new_item)
     {
         insertHelper(root_ptr_, new_node_ptr);
     }
-
-    node_count_++;
 }
 
 template<typename ItemType>
@@ -44,7 +40,9 @@ void BST<ItemType>::remove(const ItemType &item)
 {
     if(!isEmpty()) //can only remove if the tree is not empty
     {
-        if((node_count_ == 1) && (root_ptr_->getItem() == item)) //if the tree has only one node and the specified item matches
+        bool success = false;
+
+        if((nodeCount() == 1) && (root_ptr_->getItem() == item)) //if the tree has only one node and the specified item matches
         {
             delete root_ptr_;
             root_ptr_ = nullptr;
@@ -52,29 +50,32 @@ void BST<ItemType>::remove(const ItemType &item)
         else //call the helper function to search for a matching node and delete it
         {
             removeHelper(root_ptr_, item);
-            std::cout << removeHelper(root_ptr_, item);
         }
-
-        //node_count_--;
     }
 }
 
 template<typename ItemType>
 void BST<ItemType>::clear()
 {
-    destroyTree(root_ptr_);
+    destroyTreeHelper(root_ptr_);
 }
 
 template<typename ItemType>
 size_t BST<ItemType>::nodeCount() const
 {
-    return node_count_;
+    return nodeCountHelper(root_ptr_);
+}
+
+template<typename ItemType>
+size_t BST<ItemType>::getHeight() const
+{
+    return getHeightHelper(root_ptr_);
 }
 
 template<typename ItemType>
 bool BST<ItemType>::isEmpty() const
 {
-    return node_count_ == 0;
+    return root_ptr_ == nullptr;
 }
 
 template<typename ItemType>
@@ -137,6 +138,40 @@ void BST<ItemType>::postorderTraverse()
 /*
     Helper functions below
 */
+
+template<typename ItemType>
+Node<ItemType> *BST<ItemType>::copyConstructorHelper(Node<ItemType> *root) const
+{
+    if(root == nullptr) //base case
+    {
+        return root;
+    }
+    else //copying a tree uses preorder traversal (copy the root node of the subtree, then its left and right subtrees)
+    {
+        Node<ItemType> *new_node_ptr = new Node<ItemType>(root->getItem());
+        new_node_ptr->setLeft(copyConstructorHelper(root->getLeft()));
+        new_node_ptr->setRight(copyConstructorHelper(root->getRight()));
+
+        return new_node_ptr;
+    }
+}
+
+template<typename ItemType>
+void BST<ItemType>::destroyTreeHelper(Node<ItemType> *subtree_ptr)
+{
+    if(subtree_ptr == nullptr) //base case
+    {
+        return;
+    }
+    else
+    {
+        //destroying a tree uses postorder traversal (delete a node only after both its subtrees are destroyed)
+        destroyTreeHelper(subtree_ptr->getLeft()); //traverse the left subtree
+        destroyTreeHelper(subtree_ptr->getRight()); //traverse the right subtree
+        delete subtree_ptr; //delete the root node of the subtree
+        subtree_ptr = nullptr;
+    }
+}
 
 template<typename ItemType>
 Node<ItemType> *BST<ItemType>::insertHelper(Node<ItemType> *subtree_ptr, Node<ItemType> *new_node_ptr)
@@ -209,30 +244,48 @@ Node<ItemType> *BST<ItemType>::removeHelper(Node<ItemType> *subtree_ptr, const I
 }
 
 template<typename ItemType>
+size_t BST<ItemType>::nodeCountHelper(Node<ItemType> *root) const
+{
+    int count = 1; //node count of the subtree; count starts at '1' to account for the root node of the subtree
+
+    if(root == nullptr) //base case
+    {
+        return 0;
+    }
+    else
+    {
+        count += nodeCountHelper(root->getLeft()); //count nodes in the left subtree
+        count += nodeCountHelper(root->getRight()); //count nodes in the right subtree
+        return count;
+    }
+}
+
+template<typename ItemType>
+size_t BST<ItemType>::getHeightHelper(Node<ItemType> *root) const
+{
+    if(root == nullptr) //base case; when a subtree is empty
+    {
+        return -1; //since height of a leaf is 0, return '-1' since '+ 1' will occur in the previous call once this call returns
+    }
+    else
+    {
+        //get the height of the left and right subtrees, then return the greater of the two; the '+ 1' accounts for the root of the subtree
+        return std::max(getHeightHelper(root->getLeft()), getHeightHelper(root->getRight())) + 1;
+    }
+}
+
+template<typename ItemType>
 Node<ItemType> *BST<ItemType>::inorderSuccessor(Node<ItemType> *root) const
 {
     Node<ItemType> *smallest_ptr = root; //pointer that will traverse the subtree, starting from the root
 
-    //find the leftmost node in the subtree (this would be the node with the smallest value)
+//find the leftmost node in the subtree (this would be the node with the smallest value)
     while(smallest_ptr->getLeft() != nullptr)
     {
         smallest_ptr = smallest_ptr->getLeft();
     }
 
     return smallest_ptr;
-}
-
-template<typename ItemType>
-void BST<ItemType>::destroyTree(Node<ItemType> *subtree_ptr)
-{
-    if(subtree_ptr != nullptr) //base case
-    {
-        //destroying a tree uses postorder traversal (delete a node only after both its subtrees are destroyed)
-        destroyTree(subtree_ptr->getLeft()); //traverse the left subtree
-        destroyTree(subtree_ptr->getRight()); //traverse the right subtree
-        delete subtree_ptr; //delete the root node of the subtree
-        subtree_ptr = nullptr;
-    }
 }
 
 template<typename ItemType>
