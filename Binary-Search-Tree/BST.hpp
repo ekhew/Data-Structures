@@ -107,8 +107,17 @@ private:
     */
     Node<ItemType> *insertHelper(Node<ItemType> *subtree_ptr, Node<ItemType> *new_node_ptr);
 
+/*
+    /
+		inserts a node into the tree
+		@param subtree_ptr, pointer to the subtree to traverse
+		@param new_item, item to be added
+	/
+	Node<ItemType> *insertHelper(Node<ItemType> *subtree_ptr, const ItemType &new_item);
+*/
+
     /*
-        remves a node from the tree
+        removes a node from the tree
         @param subtree_ptr, pointer to the subtree to traverse
         @param new_node_ptr, pointer to the node to remove
     */

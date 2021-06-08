@@ -35,6 +35,14 @@ void BST<ItemType>::insert(const ItemType &new_item)
     }
 }
 
+/*
+template<typename ItemType>
+void BST<ItemType>::insert(const ItemType &new_item)
+{
+	root_ptr_ = insertHelper(root_ptr_, new_item);
+}
+*/
+
 template<typename ItemType>
 void BST<ItemType>::remove(const ItemType &item)
 {
@@ -193,6 +201,27 @@ Node<ItemType> *BST<ItemType>::insertHelper(Node<ItemType> *subtree_ptr, Node<It
         return subtree_ptr;
     }
 }
+
+/*
+template<typename ItemType>
+Node<ItemType> *BST<ItemType>::insertHelper(Node<ItemType> *subtree_ptr, const ItemType &new_item)
+{
+	if(subtree_ptr == nullptr) //if the subtree is empty
+	{
+		Node<ItemType> *new_node_ptr = new Node<ItemType>(new_item); //create a new node with the specified item
+		subtree_ptr = new_node_ptr;
+	}
+	else if(new_item <= subtree_ptr->getItem()) //if the new item is less than the root node, traverse to the left subtree
+	{
+		subtree_ptr->setLeft(insertHelper(subtree_ptr->getLeft(), new_item));
+	}
+	else //if the new item is greater than the root node, traverse to the right subtree
+	{
+		subtree_ptr->setRight(insertHelper(subtree_ptr->getRight(), new_item));
+	}
+	return subtree_ptr;
+}
+*/
 
 template<typename ItemType>
 Node<ItemType> *BST<ItemType>::removeHelper(Node<ItemType> *subtree_ptr, const ItemType &item)
