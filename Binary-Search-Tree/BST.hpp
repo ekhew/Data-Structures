@@ -53,7 +53,7 @@ public:
     size_t nodeCount() const;
 
     /*
-        checks the height of the tree
+        checks the height of the tree (counts the number of edges)
         @return an integer representing the height of the tree
     */
     size_t getHeight() const;
@@ -90,79 +90,76 @@ private:
 
     /*
         copy constructor helper
-        @param old_tree_root_ptr, pointer to the root node of the tree to be copied
+        @param root, pointer to the root node of the tree to be copied
+        @return pointer to a copied node
     */
     Node<ItemType> *copyConstructorHelper(Node<ItemType> *root) const;
 
     /*
         removes every node in the tree
-        @param subtree_ptr, pointer to the root node of a subtree to be deleted
+        @param root, pointer to the root node of a subtree to be deleted
     */
-    void destroyTreeHelper(Node<ItemType> *subtree_ptr);
+    void destroyHelper(Node<ItemType> *root);
 
     /*
         inserts a node into the tree
-        @param subtree_ptr, pointer to the subtree to traverse
-        @param new_node_ptr, pointer to the new node
+        @param root, pointer to the root of the subtree to traverse
+        @param new_item, item to be added
+        @return pointer to the node to be inserted
     */
-    Node<ItemType> *insertHelper(Node<ItemType> *subtree_ptr, Node<ItemType> *new_node_ptr);
-
-/*
-    /
-		inserts a node into the tree
-		@param subtree_ptr, pointer to the subtree to traverse
-		@param new_item, item to be added
-	/
-	Node<ItemType> *insertHelper(Node<ItemType> *subtree_ptr, const ItemType &new_item);
-*/
+    Node<ItemType> *insertHelper(Node<ItemType> *root, const ItemType &new_item);
 
     /*
         removes a node from the tree
-        @param subtree_ptr, pointer to the subtree to traverse
-        @param new_node_ptr, pointer to the node to remove
+        @param root, pointer to the root of the subtree to traverse
+        @param item, item to remove from the tree
+        @return pointer to new root after the old root node has been removed
     */
-    Node<ItemType> *removeHelper(Node<ItemType> *subtree_ptr, const ItemType &item);
+    Node<ItemType> *removeHelper(Node<ItemType> *root, const ItemType &item);
+
+    /*
+        finds the inorder successor of the specified node
+        @param root, pointer to the node to find the inorder successor of
+        @return pointer to the node with the inorder successor
+    */
+    Node<ItemType> *inorderSuccessor(Node<ItemType> *root) const;
 
     /*
         checks the number of nodes currently in the tree
+        @param root, pointer to the root node of a subtree
         @return an integer representing the number of nodes currently in the tree
     */
     size_t nodeCountHelper(Node<ItemType> *root) const;
 
     /*
-        checks the height of the tree
+        checks the height of the tree (counts the number of edges)
         @param root, pointer to the root node of a subtree
         @return an integer representing the height of the tree
     */
     size_t getHeightHelper(Node<ItemType> *root) const;
 
     /*
-        finds the inorder successor of the specified node
-        @param root, pointer to the node to find the inorder successor of
-    */
-    Node<ItemType> *inorderSuccessor(Node<ItemType> *root) const;
-
-    /*
         searches the tree for the specified item
         @param root, pointer to the root node of the subtree
         @param item, item to search the tree for
+        @return pointer to the node with item that was searched for
     */
     Node<ItemType> *searchHelper(Node<ItemType> *root, const ItemType &item) const;
 
     /*
-        performs a preorder traversal of the entire tree
+        performs a preorder traversal of the entire tree, and prints every item
         @param root, pointer to the root node of a subtree
     */
     void preorderHelper(Node<ItemType> *root);
 
     /*
-        performs an inorder traversal of the entire tree
+        performs an inorder traversal of the entire tree, and prints every item
         @param root, pointer to the root node of a subtree
     */
     void inorderHelper(Node<ItemType> *root);
 
     /*
-        performs a postorder traversal of the entire tree
+        performs a postorder traversal of the entire tree, and prints every item
         @param root, pointer to the root node of a subtree
     */
     void postorderHelper(Node<ItemType> *root);
