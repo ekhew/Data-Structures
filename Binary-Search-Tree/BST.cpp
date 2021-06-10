@@ -31,16 +31,7 @@ void BST<ItemType>::remove(const ItemType &item)
 {
     if(!isEmpty()) //can only remove if the tree is not empty
     {
-        if((nodeCount() == 1) && (root_ptr_->getItem() == item)) //if the tree has only one node and the specified item matches
-        {
-            delete root_ptr_;
-            root_ptr_ = nullptr;
-        }
-        else //call the helper function to search for a matching node and delete it
-        {
-            removeHelper(root_ptr_, item);
-        }
-
+        removeHelper(root_ptr_, item);
     }
 }
 
@@ -126,7 +117,10 @@ void BST<ItemType>::postorderTraverse()
 template<typename ItemType>
 void BST<ItemType>::printTree()
 {
-    printTreeHelper(root_ptr_, 0);
+    if(!isEmpty())
+    {
+        printTreeHelper(root_ptr_, 0);
+    }
 }
 
 /**************************************************************************************************
@@ -191,6 +185,14 @@ Node<ItemType> *BST<ItemType>::insertHelper(Node<ItemType> *root, const ItemType
 template<typename ItemType>
 Node<ItemType> *BST<ItemType>::removeHelper(Node<ItemType> *root, const ItemType &item)
 {
+    //if the tree has only one node and the specified item matches
+    if((nodeCount() == 1) && (root_ptr_->getItem() == item))
+    {
+        delete root_ptr_;
+        root_ptr_ = nullptr;
+    }
+
+    //if the tree has more than one node
     if(root == nullptr) //base case; return if a subtree is empty
     {
         return root;
@@ -280,11 +282,11 @@ size_t BST<ItemType>::getHeightHelper(Node<ItemType> *root) const
         //get the height of the left and right subtrees, then return the greater of the two; the '+ 1' accounts for the root of the subtree
         return 1 + std::max(getHeightHelper(root->getLeft()), getHeightHelper(root->getRight()));
 
-    /*
+        /*
         Below is basically what the std::max() function does.
-    */
+        */
 
-    /*
+        /*
         size_t left_height = getHeightHelper(root->getLeft());
         size_t right_height = getHeightHelper(root->getRight());
 
@@ -296,7 +298,7 @@ size_t BST<ItemType>::getHeightHelper(Node<ItemType> *root) const
         {
         return (right_height + 1);
         }
-    */
+        */
     }
 }
 
