@@ -53,7 +53,7 @@ public:
     size_t nodeCount() const;
 
     /*
-        checks the height of the tree (counts the number of edges)
+        checks the height of the tree (counts the number of nodes)
         @return an integer representing the height of the tree
     */
     size_t getHeight() const;
@@ -85,6 +85,11 @@ public:
         performs a postorder traversal of the entire tree; calls its helper function
     */
     void postorderTraverse();
+
+    /*
+        prints the tree
+    */
+    void printTree();
 private:
     Node<ItemType> *root_ptr_; //pointer to the root node of the tree
 
@@ -132,7 +137,7 @@ private:
     size_t nodeCountHelper(Node<ItemType> *root) const;
 
     /*
-        checks the height of the tree (counts the number of edges)
+        checks the height of the tree (counts the number of nodes)
         @param root, pointer to the root node of a subtree
         @return an integer representing the height of the tree
     */
@@ -163,6 +168,13 @@ private:
         @param root, pointer to the root node of a subtree
     */
     void postorderHelper(Node<ItemType> *root);
+
+    /*
+        prints the tree
+        @param root, pointer to the root of a subtree
+        @param space, space between levels in the tree
+    */
+    void printTreeHelper(Node<ItemType> *root, int space);
 };
 
 #include "BST.cpp"

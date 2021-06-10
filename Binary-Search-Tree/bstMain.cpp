@@ -16,7 +16,6 @@ int main()
     BST<int> myTree;
 
     myTree.insert(6);
-
     myTree.insert(2);
     myTree.insert(7);
     myTree.insert(1);
@@ -26,9 +25,16 @@ int main()
     myTree.insert(9);
     myTree.insert(8);
 
+    //myTree.remove(6); //root
+    //myTree.remove(1); //case 1: is a leaf
+    //myTree.remove(7); //case 2: one child (right)
+    //myTree.remove(9); //case 2: one child (left)
+    //myTree.remove(2); //case 3: two children
+    //myTree.remove(12); //does not exist
+
+    //myTree.remove(8);
     //myTree.remove(5);
-    //myTree.remove(1);
-    //myTree.remove(12);
+    //myTree.remove(3);
 
     cout << "Node Count: " << myTree.nodeCount() << endl;
     cout << "Height: " << myTree.getHeight() << endl;
@@ -50,6 +56,8 @@ int main()
     {
         cout << "Item not found!" << endl;
     }
+
+    myTree.printTree();
 
     /*
         copy constructor test

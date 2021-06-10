@@ -31,8 +31,6 @@ void BST<ItemType>::remove(const ItemType &item)
 {
     if(!isEmpty()) //can only remove if the tree is not empty
     {
-        bool success = false;
-
         if((nodeCount() == 1) && (root_ptr_->getItem() == item)) //if the tree has only one node and the specified item matches
         {
             delete root_ptr_;
@@ -42,6 +40,7 @@ void BST<ItemType>::remove(const ItemType &item)
         {
             removeHelper(root_ptr_, item);
         }
+
     }
 }
 
@@ -122,6 +121,12 @@ void BST<ItemType>::postorderTraverse()
     {
         std::cout << "Tree is empty!";
     }
+}
+
+template<typename ItemType>
+void BST<ItemType>::printTree()
+{
+    printTreeHelper(root_ptr_, 0);
 }
 
 /**************************************************************************************************
@@ -266,19 +271,32 @@ size_t BST<ItemType>::nodeCountHelper(Node<ItemType> *root) const
 template<typename ItemType>
 size_t BST<ItemType>::getHeightHelper(Node<ItemType> *root) const
 {
-    if(root_ptr_ == nullptr) //if the tree is empty, the height is 0
-    {
-        return 0;
-    }
-
     if(root == nullptr) //base case; return if a subtree is empty
     {
-        return -1; //since height of a leaf is 0, return '-1' since '+ 1' will occur in the previous call once this call returns
+        return 0;
     }
     else
     {
         //get the height of the left and right subtrees, then return the greater of the two; the '+ 1' accounts for the root of the subtree
         return 1 + std::max(getHeightHelper(root->getLeft()), getHeightHelper(root->getRight()));
+
+    /*
+        Below is basically what the std::max() function does.
+    */
+
+    /*
+        size_t left_height = getHeightHelper(root->getLeft());
+        size_t right_height = getHeightHelper(root->getRight());
+
+        if(left_height > right_height)
+        {
+        return (left_height + 1);
+        }
+        else
+        {
+        return (right_height + 1);
+        }
+    */
     }
 }
 
@@ -332,5 +350,29 @@ void BST<ItemType>::postorderHelper(Node<ItemType> *root)
         postorderHelper(root->getLeft()); //traverse the left subtree
         postorderHelper(root->getRight()); //traverse the right subtree
         std::cout << root->getItem() << " "; //visit the node
+    }
+}
+
+template<typename ItemType>
+void BST<ItemType>::printTreeHelper(Node<ItemType> *root, int space)
+{
+    if(root == nullptr) //base case; return when a subtree of a root is empty
+    {
+        return;
+    }
+    else
+    {
+        space += 10; //increase distance between levels
+
+        printTreeHelper(root->getRight(), space); //print the right subtree
+
+        std::cout << std::endl;
+        for(int i = 10; i < space; i++)
+        {
+            std::cout << " ";
+        }
+        std::cout << root->getItem() << std::endl;
+
+        printTreeHelper(root->getLeft(), space); //print the left subtree
     }
 }
