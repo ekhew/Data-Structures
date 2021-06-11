@@ -11,19 +11,19 @@ BST<ItemType>::BST():root_ptr_(nullptr) { }
 template<typename ItemType>
 BST<ItemType>::BST(const BST<ItemType> &tree)
 {
-    root_ptr_ = copyConstructorHelper(tree.root_ptr_);
+    root_ptr_ = copyConstructorHelper(tree.root_ptr_); //set 'root_ptr_' of the new tree to the tree that was created in the helper function
 }
 
 template<typename ItemType>
 BST<ItemType>::~BST()
 {
-    destroyHelper(root_ptr_);
+    destroyTreeHelper(root_ptr_);
 }
 
 template<typename ItemType>
 void BST<ItemType>::insert(const ItemType &new_item)
 {
-    root_ptr_ = insertHelper(root_ptr_, new_item);
+    root_ptr_ = insertHelper(root_ptr_, new_item); //update the 'root_ptr_' to the updated tree with the new node
 }
 
 template<typename ItemType>
@@ -31,14 +31,14 @@ void BST<ItemType>::remove(const ItemType &item)
 {
     if(!isEmpty()) //can only remove if the tree is not empty
     {
-        removeHelper(root_ptr_, item);
+        root_ptr_ = removeHelper(root_ptr_, item); //update the 'root_ptr_' to the updated tree with the node deleted
     }
 }
 
 template<typename ItemType>
 void BST<ItemType>::clear()
 {
-    destroyHelper(root_ptr_);
+    destroyTreeHelper(root_ptr_);
 }
 
 template<typename ItemType>
@@ -124,7 +124,7 @@ void BST<ItemType>::printTree()
 }
 
 /**************************************************************************************************
-                                    Helper functions below.
+                                Helper functions below.
 **************************************************************************************************/
 
 template<typename ItemType>
@@ -132,7 +132,7 @@ Node<ItemType> *BST<ItemType>::copyConstructorHelper(Node<ItemType> *root) const
 {
     if(root == nullptr) //base case; return if a subtree is empty
     {
-        return root;
+        return root; //returns 'nullptr'
     }
     else //copying a tree uses preorder traversal (copy the root node of the subtree, then its left and right subtrees)
     {
@@ -145,7 +145,7 @@ Node<ItemType> *BST<ItemType>::copyConstructorHelper(Node<ItemType> *root) const
 }
 
 template<typename ItemType>
-void BST<ItemType>::destroyHelper(Node<ItemType> *root)
+void BST<ItemType>::destroyTreeHelper(Node<ItemType> *root)
 {
     if(root == nullptr) //base case; return if a subtree is empty
     {
@@ -154,8 +154,8 @@ void BST<ItemType>::destroyHelper(Node<ItemType> *root)
     else
     {
         //destroying a tree uses postorder traversal (delete a node only after both its subtrees are destroyed)
-        destroyHelper(root->getLeft()); //traverse the left subtree
-        destroyHelper(root->getRight()); //traverse the right subtree
+        destroyTreeHelper(root->getLeft()); //traverse the left subtree
+        destroyTreeHelper(root->getRight()); //traverse the right subtree
         delete root; //delete the root node of the subtree
         root = nullptr;
 
@@ -282,23 +282,23 @@ size_t BST<ItemType>::getHeightHelper(Node<ItemType> *root) const
         //get the height of the left and right subtrees, then return the greater of the two; the '+ 1' accounts for the root of the subtree
         return 1 + std::max(getHeightHelper(root->getLeft()), getHeightHelper(root->getRight()));
 
-        /*
+    /*
         Below is basically what the std::max() function does.
-        */
+    */
 
-        /*
+    /*
         size_t left_height = getHeightHelper(root->getLeft());
         size_t right_height = getHeightHelper(root->getRight());
 
         if(left_height > right_height)
         {
-        return (left_height + 1);
+            return (left_height + 1);
         }
         else
         {
-        return (right_height + 1);
+            return (right_height + 1);
         }
-        */
+    */
     }
 }
 

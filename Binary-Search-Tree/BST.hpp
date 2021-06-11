@@ -104,7 +104,7 @@ private:
         removes every node in the tree
         @param root, pointer to the root node of a subtree to be deleted
     */
-    void destroyHelper(Node<ItemType> *root);
+    void destroyTreeHelper(Node<ItemType> *root);
 
     /*
         inserts a node into the tree
