@@ -48,6 +48,9 @@ int main()
     cout << endl << "Postorder: ";
     myTree.postorderTraverse(); //1, 3, 5, 4, 2, 8, 9, 7, 6
 
+    cout << endl << "Level Order: ";
+    myTree.levelorderTraverse(); //6, 2, 7, 1, 4, 9, 3, 5, 8
+
     try
     {
         cout << endl << "Search: " << myTree.search(6) << endl;
@@ -55,6 +58,24 @@ int main()
     catch(const std::out_of_range& problem)
     {
         cout << "Item not found!" << endl;
+    }
+
+    try
+    {
+        cout << "Min: " << myTree.findMin() << endl;
+    }
+    catch(const std::out_of_range& problem)
+    {
+        cout << "Tree is empty!" << endl;
+    }
+
+    try
+    {
+        cout << "Max: " << myTree.findMax() << endl;
+    }
+    catch(const std::out_of_range& problem)
+    {
+        cout << "Tree is empty!" << endl;
     }
 
     myTree.printTree();

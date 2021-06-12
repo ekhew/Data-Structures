@@ -5,6 +5,8 @@ Description: Binary search tree class implementation.
 Date Created: 6/4/2021
 */
 
+#include <queue> //for level order traversal
+
 template<typename ItemType>
 BST<ItemType>::BST():root_ptr_(nullptr) { }
 
@@ -75,6 +77,32 @@ ItemType BST<ItemType>::search(const ItemType &item) const
 }
 
 template<typename ItemType>
+ItemType BST<ItemType>::findMin() const
+{
+    if(isEmpty()) //if the tree is empty, throw an exception
+    {
+        throw(std::out_of_range("Position out of range!"));
+    }
+    else //return the smallest item found by the helper function
+    {
+        return findMinHelper(root_ptr_)->getItem();
+    }
+}
+
+template<typename ItemType>
+ItemType BST<ItemType>::findMax() const
+{
+    if(isEmpty()) //if the tree is empty, throw an exception
+    {
+        throw(std::out_of_range("Position out of range!"));
+    }
+    else //return the greatest item found by the helper function
+    {
+        return findMaxHelper(root_ptr_)->getItem();
+    }
+}
+
+template<typename ItemType>
 void BST<ItemType>::preorderTraverse()
 {
     if(!isEmpty()) //can only traverse if the tree is not empty
@@ -86,7 +114,6 @@ void BST<ItemType>::preorderTraverse()
         std::cout << "Tree is empty!";
     }
 }
-
 
 template<typename ItemType>
 void BST<ItemType>::inorderTraverse()
@@ -115,6 +142,19 @@ void BST<ItemType>::postorderTraverse()
 }
 
 template<typename ItemType>
+void BST<ItemType>::levelorderTraverse()
+{
+    if(!isEmpty()) //can only traverse if the tree is not empty
+    {
+        levelorderHelper(root_ptr_); //traverse using the helper function
+    }
+    else
+    {
+        std::cout << "Tree is empty!";
+    }
+}
+
+template<typename ItemType>
 void BST<ItemType>::printTree()
 {
     if(!isEmpty())
@@ -124,7 +164,7 @@ void BST<ItemType>::printTree()
 }
 
 /**************************************************************************************************
-                                Helper functions below.
+                                    Helper functions below.
 **************************************************************************************************/
 
 template<typename ItemType>
@@ -282,23 +322,23 @@ size_t BST<ItemType>::getHeightHelper(Node<ItemType> *root) const
         //get the height of the left and right subtrees, then return the greater of the two; the '+ 1' accounts for the root of the subtree
         return 1 + std::max(getHeightHelper(root->getLeft()), getHeightHelper(root->getRight()));
 
-    /*
+        /*
         Below is basically what the std::max() function does.
-    */
+        */
 
-    /*
+        /*
         size_t left_height = getHeightHelper(root->getLeft());
         size_t right_height = getHeightHelper(root->getRight());
 
         if(left_height > right_height)
         {
-            return (left_height + 1);
+        return (left_height + 1);
         }
         else
         {
-            return (right_height + 1);
+        return (right_height + 1);
         }
-    */
+        */
     }
 }
 
@@ -319,6 +359,32 @@ Node<ItemType> *BST<ItemType>::searchHelper(Node<ItemType> *root, const ItemType
         {
             return searchHelper(root->getRight(), item);
         }
+    }
+}
+
+template<typename ItemType>
+Node<ItemType> *BST<ItemType>::findMinHelper(Node<ItemType> *root) const
+{
+    if(root->getLeft() == nullptr) //base case; once the leftmost item in the tree is found, return it
+    {
+        return root;
+    }
+    else //traverse to the left child
+    {
+        return findMinHelper(root->getLeft());
+    }
+}
+
+template<typename ItemType>
+Node<ItemType> *BST<ItemType>::findMaxHelper(Node<ItemType> *root) const
+{
+    if(root->getRight() == nullptr) //base case; once the rightmost item in the tree is found, return it
+    {
+        return root;
+    }
+    else //traverse to the right child
+    {
+        return findMaxHelper(root->getRight());
     }
 }
 
@@ -352,6 +418,37 @@ void BST<ItemType>::postorderHelper(Node<ItemType> *root)
         postorderHelper(root->getLeft()); //traverse the left subtree
         postorderHelper(root->getRight()); //traverse the right subtree
         std::cout << root->getItem() << " "; //visit the node
+    }
+}
+
+template<typename ItemType>
+void BST<ItemType>::levelorderHelper(Node<ItemType> *root)
+{
+    if(root != nullptr) //can only traverse if the tree is not empty
+    {
+        std::queue<Node<ItemType>*> Q; //create a new queue of item type 'Node<ItemType>*'
+        Q.push(root);//push the root node into the queue
+
+        while(!Q.empty())
+        {
+            Node<ItemType> *current_ptr = Q.front(); //create a pointer to store the address of the node at the front of the queue
+
+            std::cout << current_ptr->getItem() << " "; //visit the node
+
+            //push the parent node's left child into the queue, if a left child is present
+            if(current_ptr->getLeft() != nullptr)
+            {
+                Q.push(current_ptr->getLeft());
+            }
+
+            //push the parent node's right child into the queue, if a right child is present
+            if(current_ptr->getRight() != nullptr)
+            {
+                Q.push(current_ptr->getRight());
+            }
+
+            Q.pop(); //pop the parent node from the front of the queue
+        }
     }
 }
 

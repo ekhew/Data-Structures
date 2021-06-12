@@ -72,19 +72,36 @@ public:
     ItemType search(const ItemType &item) const;
 
     /*
-        performs a preorder traversal of the entire tree; calls its helper function
+        finds and returns the smallest item in the tree
+        @return a copy of the smallest item in the tree
+    */
+    ItemType findMin() const;
+
+    /*
+        finds and returns the greatest item in the tree
+        @return a copy of the greatest item in the tree
+    */
+    ItemType findMax() const;
+
+    /*
+        performs a preorder traversal of the entire tree
     */
     void preorderTraverse();
 
     /*
-        performs an inorder traversal of the entire tree; calls its helper function
+        performs an inorder traversal of the entire tree
     */
     void inorderTraverse();
 
     /*
-        performs a postorder traversal of the entire tree; calls its helper function
+        performs a postorder traversal of the entire tree
     */
     void postorderTraverse();
+
+    /*
+        performs a level order traversal of the entire tree
+    */
+    void levelorderTraverse();
 
     /*
         prints the tree
@@ -152,6 +169,20 @@ private:
     Node<ItemType> *searchHelper(Node<ItemType> *root, const ItemType &item) const;
 
     /*
+        finds and returns the smallest item in the tree
+        @param root, pointer to the root node of the subtree
+        @return a copy of the smallest item in the tree
+    */
+    Node<ItemType> *findMinHelper(Node<ItemType> *root) const;
+
+    /*
+        finds and returns the greatest item in the tree
+        @param root, pointer to the root node of the subtree
+        @return a copy of the greatest item in the tree
+    */
+    Node<ItemType> *findMaxHelper(Node<ItemType> *root) const;
+
+    /*
         performs a preorder traversal of the entire tree, and prints every item
         @param root, pointer to the root node of a subtree
     */
@@ -168,6 +199,12 @@ private:
         @param root, pointer to the root node of a subtree
     */
     void postorderHelper(Node<ItemType> *root);
+
+    /*
+        performs a level order traversal of the entire tree, and prints every item
+        @param root, pointer to the root node of a subtree
+    */
+    void levelorderHelper(Node<ItemType> *root);
 
     /*
         prints the tree
