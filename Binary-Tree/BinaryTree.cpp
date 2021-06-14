@@ -31,7 +31,7 @@ void BinaryTree<ItemType>::insert(const ItemType &new_item)
 template<typename ItemType>
 void BinaryTree<ItemType>::remove(const ItemType &item)
 {
-    if(!isEmpty()) //can only remove if the tree is not empty
+    if(!isEmpty()) //can only remove if the tree is not empty and the item exists
     {
         root_ptr_ = removeHelper(root_ptr_, item); //update the 'root_ptr_' to the updated tree with the node deleted
     }
@@ -59,6 +59,21 @@ template<typename ItemType>
 bool BinaryTree<ItemType>::isEmpty() const
 {
     return root_ptr_ == nullptr;
+}
+
+template<typename ItemType>
+ItemType BinaryTree<ItemType>::search(const ItemType &item) const
+{
+    Node<ItemType> *search_ptr = searchHelper(root_ptr_, item); //pointer to the node that is being searched for
+
+    if(search_ptr == nullptr) //if the item cannot be found, throw an exception
+    {
+        throw(std::out_of_range("Position out of range!"));
+    }
+    else //return the item being pointed to by 'search_ptr'
+    {
+        return search_ptr->getItem();
+    }
 }
 
 template<typename ItemType>
@@ -173,14 +188,13 @@ Node<ItemType> *BinaryTree<ItemType>::insertHelper(Node<ItemType> *root, const I
 template<typename ItemType>
 Node<ItemType> *BinaryTree<ItemType>::removeHelper(Node<ItemType> *root, const ItemType &item)
 {
-    //if the tree has only one node and the specified item matches
-    if((nodeCount() == 1) && (root_ptr_->getItem() == item))
+    if((nodeCount() == 1) && (root_ptr_->getItem() == item)) //if the tree has only one node and the specified item matches
     {
-        delete root_ptr_;
-        root_ptr_ = nullptr;
+        delete root;
+        root = nullptr;
+        return root;
     }
-
-    if(root != nullptr) //base case; can only traverse if the tree is not empty
+    else if(root != nullptr && searchHelper(root_ptr_, item) != nullptr) //base case; can only traverse if the tree is not empty
     {
         ItemType last_item = getDeepestNode()->getItem(); //get the item at the deepest node using the helper function
 
@@ -229,6 +243,10 @@ Node<ItemType> *BinaryTree<ItemType>::removeHelper(Node<ItemType> *root, const I
             Q.pop(); //pop the parent node from the front of the queue
         }
 
+        return root;
+    }
+    else //if the specified item does not exist in the tree, return the pointer to an unchanged tree
+    {
         return root;
     }
 }
@@ -315,6 +333,43 @@ size_t BinaryTree<ItemType>::getHeightHelper(Node<ItemType> *root) const
         return (right_height + 1);
         }
         */
+    }
+}
+
+template<typename ItemType>
+Node<ItemType> *BinaryTree<ItemType>::searchHelper(Node<ItemType> *root, const ItemType &item) const
+{
+    if(root != nullptr) //base case; can only traverse if the tree is not empty
+    {
+        std::queue<Node<ItemType>*> Q; //create a new queue of item type 'Node<ItemType>*'
+        Q.push(root);//push the root node into the queue
+
+        while(!Q.empty())
+        {
+            Node<ItemType> *current_ptr = Q.front(); //create a pointer to store the address of the node at the front of the queue
+
+            //if the current node's item matches the specified item, return that node's pointer
+            if(current_ptr->getItem() == item)
+            {
+                return current_ptr;
+            }
+
+            //push the parent node's left child into the queue, if a left child is present
+            if(current_ptr->getLeft() != nullptr)
+            {
+                Q.push(current_ptr->getLeft());
+            }
+
+            //push the parent node's right child into the queue, if a right child is present
+            if(current_ptr->getRight() != nullptr)
+            {
+                Q.push(current_ptr->getRight());
+            }
+
+            Q.pop(); //pop the parent node from the front of the queue
+        }
+
+        return nullptr; //return 'nullptr' if the item was not found after traversing through the entire tree
     }
 }
 
