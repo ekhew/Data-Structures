@@ -34,18 +34,88 @@ int main()
     cout << "Node Count: " << myTree.nodeCount() << endl;
     cout << "Height: " << myTree.getHeight() << endl;
 
+    cout << "Preorder: ";
+    myTree.preorderTraverse();
+
+    cout << endl << "Inorder: ";
+    myTree.inorderTraverse();
+
+    cout << endl << "Postorder: ";
+    myTree.postorderTraverse();
+
+    cout << endl << "Level Order: ";
+    myTree.levelorderTraverse(); //6, 2, 7, 1, 4, 9, 3, 5, 8
+
     try
     {
-        cout << "Search: " << myTree.search(9) << endl;
+        cout << endl << "Search: " << myTree.search(5) << endl;
     }
     catch(const std::out_of_range& problem)
     {
         cout << "Item not found!" << endl;
     }
 
-    cout << "Level Order: ";
-    myTree.levelorderTraverse(); //6, 2, 7, 1, 4, 3, 5, 9, 8
-    cout << endl;
+    try
+    {
+        cout << "Min: " << myTree.findMin() << endl;
+    }
+    catch(const std::out_of_range& problem)
+    {
+        cout << "Tree is empty!" << endl;
+    }
+
+    try
+    {
+        cout << "Max: " << myTree.findMax() << endl;
+    }
+    catch(const std::out_of_range& problem)
+    {
+        cout << "Tree is empty!" << endl;
+    }
 
     myTree.printTree();
+
+    /*
+        copy constructor test
+    */
+    BinaryTree<int> myCopiedTree = myTree;
+
+    cout << endl << "Node Count (Copied Tree): " << myCopiedTree.nodeCount() << endl;
+    cout << "Height (Copied Tree): " << myCopiedTree.getHeight() << endl;
+
+    cout << "Preorder (Copied Tree): ";
+    myCopiedTree.preorderTraverse();
+
+    cout << endl << "Inorder (Copied Tree): ";
+    myCopiedTree.inorderTraverse();
+
+    cout << endl << "Postorder (Copied Tree): ";
+    myCopiedTree.postorderTraverse();
+
+    cout << endl << "Level Order (Copied Tree): ";
+    myTree.levelorderTraverse();
+
+    cout << endl;
+
+    /*
+        clear method test
+    */
+    myTree.clear();
+
+    cout << endl << "Node Count (After Clear): " << myTree.nodeCount() << endl;
+    cout << "Height (After Clear): " << myTree.getHeight() << endl;
+
+    cout << "Preorder (After Clear): ";
+    myTree.preorderTraverse();
+
+    cout << endl << "Inorder (After Clear): ";
+    myTree.inorderTraverse();
+
+    cout << endl << "Postorder (After Clear): ";
+    myTree.postorderTraverse();
+
+    cout << endl << "Level Order (After Clear): ";
+    myTree.levelorderTraverse();
+
+    cout << endl;
 }

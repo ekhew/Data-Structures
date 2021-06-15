@@ -77,6 +77,71 @@ ItemType BinaryTree<ItemType>::search(const ItemType &item) const
 }
 
 template<typename ItemType>
+ItemType BinaryTree<ItemType>::findMin() const
+{
+    if(isEmpty()) //if the tree is empty, throw an exception
+    {
+        throw(std::out_of_range("Position out of range!"));
+    }
+    else //return the smallest item found by the helper function
+    {
+        return findMinHelper(root_ptr_)->getItem();
+    }
+}
+
+template<typename ItemType>
+ItemType BinaryTree<ItemType>::findMax() const
+{
+    if(isEmpty()) //if the tree is empty, throw an exception
+    {
+        throw(std::out_of_range("Position out of range!"));
+    }
+    else //return the greatest item found by the helper function
+    {
+        return findMaxHelper(root_ptr_)->getItem();
+    }
+}
+
+template<typename ItemType>
+void BinaryTree<ItemType>::preorderTraverse()
+{
+    if(!isEmpty()) //can only traverse if the tree is not empty
+    {
+        preorderHelper(root_ptr_); //traverse using the helper function
+    }
+    else
+    {
+        std::cout << "Tree is empty!";
+    }
+}
+
+template<typename ItemType>
+void BinaryTree<ItemType>::inorderTraverse()
+{
+    if(!isEmpty()) //can only traverse if the tree is not empty
+    {
+        inorderHelper(root_ptr_); //traverse using the helper function
+    }
+    else
+    {
+        std::cout << "Tree is empty!";
+    }
+}
+
+template<typename ItemType>
+void BinaryTree<ItemType>::postorderTraverse()
+{
+    if(!isEmpty()) //can only traverse if the tree is not empty
+    {
+        postorderHelper(root_ptr_); //traverse using the helper function
+    }
+    else
+    {
+        std::cout << "Tree is empty!";
+    }
+}
+
+template<typename ItemType>
 void BinaryTree<ItemType>::levelorderTraverse()
 {
     if(!isEmpty()) //can only traverse if the tree is not empty
@@ -370,6 +435,121 @@ Node<ItemType> *BinaryTree<ItemType>::searchHelper(Node<ItemType> *root, const I
         }
 
         return nullptr; //return 'nullptr' if the item was not found after traversing through the entire tree
+    }
+}
+
+template<typename ItemType>
+Node<ItemType> *BinaryTree<ItemType>::findMinHelper(Node<ItemType> *root) const
+{
+    if(root != nullptr)
+    {
+        std::queue<Node<ItemType>*> Q; //create a new queue of item type 'Node<ItemType>*'
+        Q.push(root);//push the root node into the queue
+
+        ItemType min = root->getItem(); //current minimum item
+        Node<ItemType> *min_ptr = nullptr; //pointer to node with the current minimum item
+
+        while(!Q.empty())
+        {
+            Node<ItemType> *current_ptr = Q.front(); //create a pointer to store the address of the node at the front of the queue
+
+            //if the current node's item is less than or equal to the current min, set the new min value and min pointer
+            if(current_ptr->getItem() <= min)
+            {
+                min = current_ptr->getItem();
+                min_ptr = current_ptr;
+            }
+
+            //push the parent node's left child into the queue, if a left child is present
+            if(current_ptr->getLeft() != nullptr)
+            {
+                Q.push(current_ptr->getLeft());
+            }
+
+            //push the parent node's right child into the queue, if a right child is present
+            if(current_ptr->getRight() != nullptr)
+            {
+                Q.push(current_ptr->getRight());
+            }
+
+            Q.pop(); //pop the parent node from the front of the queue
+        }
+
+        return min_ptr; //returns 'nullptr' if the item was not found after traversing through the entire tree
+    }
+}
+
+template<typename ItemType>
+Node<ItemType> *BinaryTree<ItemType>::findMaxHelper(Node<ItemType> *root) const
+{
+    if(root != nullptr)
+    {
+        std::queue<Node<ItemType>*> Q; //create a new queue of item type 'Node<ItemType>*'
+        Q.push(root);//push the root node into the queue
+
+        ItemType max = root->getItem(); //current minimum item
+        Node<ItemType> *max_ptr = nullptr; //pointer to node with the current minimum item
+
+        while(!Q.empty())
+        {
+            Node<ItemType> *current_ptr = Q.front(); //create a pointer to store the address of the node at the front of the queue
+
+            //if the current node's item is greater than or equal to the current max, set the new max value and max pointer
+            if(current_ptr->getItem() >= max)
+            {
+                max = current_ptr->getItem();
+                max_ptr = current_ptr;
+            }
+
+            //push the parent node's left child into the queue, if a left child is present
+            if(current_ptr->getLeft() != nullptr)
+            {
+                Q.push(current_ptr->getLeft());
+            }
+
+            //push the parent node's right child into the queue, if a right child is present
+            if(current_ptr->getRight() != nullptr)
+            {
+                Q.push(current_ptr->getRight());
+            }
+
+            Q.pop(); //pop the parent node from the front of the queue
+        }
+
+        return max_ptr; //returns 'nullptr' if the item was not found after traversing through the entire tree
+    }
+}
+
+template<typename ItemType>
+void BinaryTree<ItemType>::preorderHelper(Node<ItemType> *root)
+{
+    if(root != nullptr) //base case; return when a subtree of a root is empty
+    {
+        std::cout << root->getItem() << " "; //visit the node
+        preorderHelper(root->getLeft()); //traverse the left subtree
+        preorderHelper(root->getRight()); //traverse the right subtree
+    }
+}
+
+template<typename ItemType>
+void BinaryTree<ItemType>::inorderHelper(Node<ItemType> *root)
+{
+    if(root != nullptr) //base case; return when a subtree of a root is empty
+    {
+        preorderHelper(root->getLeft()); //traverse the left subtree
+        std::cout << root->getItem() << " "; //visit the node
+        preorderHelper(root->getRight());
+    }
+}
+
+template<typename ItemType>
+void BinaryTree<ItemType>::postorderHelper(Node<ItemType> *root)
+{
+    if(root != nullptr) //base case; return when a subtree of a root is empty
+    {
+        preorderHelper(root->getLeft()); //traverse the left subtree
+        preorderHelper(root->getRight()); //traverse the right subtree
+        std::cout << root->getItem() << " "; //visit the node
     }
 }
 

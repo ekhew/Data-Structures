@@ -147,13 +147,6 @@ private:
     Node<ItemType> *getDeepestNode();
 
     /*
-        finds the inorder successor of the specified node
-        @param root, pointer to the node to find the inorder successor of
-        @return pointer to the node with the inorder successor
-    */
-    Node<ItemType> *inorderSuccessor(Node<ItemType> *root) const;
-
-    /*
         checks the number of nodes currently in the tree
         @param root, pointer to the root node of a subtree
         @return an integer representing the number of nodes currently in the tree
