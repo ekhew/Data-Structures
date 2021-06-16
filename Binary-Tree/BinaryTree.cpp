@@ -212,7 +212,7 @@ Node<ItemType> *BinaryTree<ItemType>::insertHelper(Node<ItemType> *root, const I
         root = new_node_ptr;
         return root;
     }
-    else
+    else //if the tree is not currently empty, insert into the tree
     {
         std::queue<Node<ItemType>*> Q; //create a new queue of item type 'Node<ItemType>*'
         Q.push(root);//push the root node into the queue
@@ -226,7 +226,7 @@ Node<ItemType> *BinaryTree<ItemType>::insertHelper(Node<ItemType> *root, const I
             {
                 Q.push(current_ptr->getLeft());
             }
-            else
+            else //when the first empty spot is found, insert the new node
             {
                 Node<ItemType> *new_node_ptr = new Node<ItemType>(new_item);
                 current_ptr->setLeft(new_node_ptr);
@@ -238,7 +238,7 @@ Node<ItemType> *BinaryTree<ItemType>::insertHelper(Node<ItemType> *root, const I
             {
                 Q.push(current_ptr->getRight());
             }
-            else
+            else //when the first empty spot is found, insert the new node
             {
                 Node<ItemType> *new_node_ptr = new Node<ItemType>(new_item);
                 current_ptr->setRight(new_node_ptr);
@@ -248,6 +248,8 @@ Node<ItemType> *BinaryTree<ItemType>::insertHelper(Node<ItemType> *root, const I
             Q.pop(); //pop the parent node from the front of the queue
         }
     }
+
+    return root;
 }
 
 template<typename ItemType>
@@ -319,12 +321,12 @@ Node<ItemType> *BinaryTree<ItemType>::removeHelper(Node<ItemType> *root, const I
 template<typename ItemType>
 Node<ItemType> *BinaryTree<ItemType>::getDeepestNode()
 {
+    Node<ItemType> *last_node_ptr = nullptr; //item in the last node in the tree; rightmost item in the last level
+
     if(root_ptr_ != nullptr) //base case; can only traverse if the tree is not empty
     {
         std::queue<Node<ItemType>*> Q; //create a new queue of item type 'Node<ItemType>*'
         Q.push(root_ptr_);//push the root node into the queue
-
-        Node<ItemType> *last_node_ptr; //item in the last node in the tree; rightmost item in the last level
 
         //find the last item in the tree
         while(!Q.empty())
@@ -347,9 +349,9 @@ Node<ItemType> *BinaryTree<ItemType>::getDeepestNode()
 
             Q.pop(); //pop the parent node from the front of the queue
         }
-
-        return last_node_ptr;
     }
+
+    return last_node_ptr; //returns the pointer to the deepest node; returns 'nullptr' if the tree is empty
 }
 
 template<typename ItemType>
@@ -433,21 +435,21 @@ Node<ItemType> *BinaryTree<ItemType>::searchHelper(Node<ItemType> *root, const I
 
             Q.pop(); //pop the parent node from the front of the queue
         }
-
-        return nullptr; //return 'nullptr' if the item was not found after traversing through the entire tree
     }
+
+    return nullptr; //return 'nullptr' if the item was not found after traversing through the entire tree
 }
 
 template<typename ItemType>
 Node<ItemType> *BinaryTree<ItemType>::findMinHelper(Node<ItemType> *root) const
 {
+    ItemType min = root->getItem(); //current minimum item
+    Node<ItemType> *min_ptr = nullptr; //pointer to node with the current minimum item
+
     if(root != nullptr)
     {
         std::queue<Node<ItemType>*> Q; //create a new queue of item type 'Node<ItemType>*'
         Q.push(root);//push the root node into the queue
-
-        ItemType min = root->getItem(); //current minimum item
-        Node<ItemType> *min_ptr = nullptr; //pointer to node with the current minimum item
 
         while(!Q.empty())
         {
@@ -474,21 +476,21 @@ Node<ItemType> *BinaryTree<ItemType>::findMinHelper(Node<ItemType> *root) const
 
             Q.pop(); //pop the parent node from the front of the queue
         }
-
-        return min_ptr; //returns 'nullptr' if the item was not found after traversing through the entire tree
     }
+
+    return min_ptr; //return the pointer to the node with the minimum; returns 'nullptr' if the tree is empty
 }
 
 template<typename ItemType>
 Node<ItemType> *BinaryTree<ItemType>::findMaxHelper(Node<ItemType> *root) const
 {
+    ItemType max = root->getItem(); //current maximum item
+    Node<ItemType> *max_ptr = nullptr; //pointer to node with the current maximum item
+
     if(root != nullptr)
     {
         std::queue<Node<ItemType>*> Q; //create a new queue of item type 'Node<ItemType>*'
         Q.push(root);//push the root node into the queue
-
-        ItemType max = root->getItem(); //current minimum item
-        Node<ItemType> *max_ptr = nullptr; //pointer to node with the current minimum item
 
         while(!Q.empty())
         {
@@ -515,9 +517,9 @@ Node<ItemType> *BinaryTree<ItemType>::findMaxHelper(Node<ItemType> *root) const
 
             Q.pop(); //pop the parent node from the front of the queue
         }
-
-        return max_ptr; //returns 'nullptr' if the item was not found after traversing through the entire tree
     }
+
+    return max_ptr; //return the pointer to the node with the maximum; returns 'nullptr' if the tree is empty
 }
 
 template<typename ItemType>
