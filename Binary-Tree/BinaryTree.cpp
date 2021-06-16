@@ -155,6 +155,12 @@ void BinaryTree<ItemType>::levelorderTraverse()
 }
 
 template<typename ItemType>
+bool BinaryTree<ItemType>::isBST()
+{
+    return isBSTHelper(root_ptr_);
+}
+
+template<typename ItemType>
 void BinaryTree<ItemType>::printTree()
 {
     if(!isEmpty())
@@ -584,6 +590,35 @@ void BinaryTree<ItemType>::levelorderHelper(Node<ItemType> *root)
             Q.pop(); //pop the parent node from the front of the queue
         }
     }
+}
+
+template<typename ItemType>
+bool BinaryTree<ItemType>::isBSTHelper(Node<ItemType> *root)
+{
+    if(root == nullptr) //base case
+    {
+        return true;
+    }
+
+    if(root->getLeft() != nullptr)
+    {
+        //if the root item is less than the minimum of its left subtree, the tree is not a BST
+        if(root->getItem() < findMinHelper(root->getLeft())->getItem())
+        {
+            return false;
+        }
+    }
+
+    if(root->getRight() != nullptr)
+    {
+        //if the root item is greater than the maximum of its right subtree, the tree is not a BST
+        if(root->getItem() > findMaxHelper(root->getRight())->getItem())
+        {
+            return false;
+        }
+    }
+
+    return isBSTHelper(root->getLeft()) && isBSTHelper(root->getRight()); //check the left and right subtrees recursively
 }
 
 template<typename ItemType>

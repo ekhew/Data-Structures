@@ -104,6 +104,11 @@ public:
     void levelorderTraverse();
 
     /*
+        checks to see if the calling tree is a binary search tree
+    */
+    bool isBST();
+
+    /*
         prints the tree
     */
     void printTree();
@@ -205,6 +210,12 @@ private:
         @param root, pointer to the root node of a subtree
     */
     void levelorderHelper(Node<ItemType> *root);
+
+    /*
+        checks to see if the calling tree is a binary search tree
+        @param root, pointer to the root node of the tree
+    */
+    bool isBSTHelper(Node<ItemType> *root);
 
     /*
         prints the tree

@@ -15,21 +15,20 @@ int main()
 {
     BinaryTree<int> myTree;
 
-    myTree.insert(6);
-    myTree.insert(2);
-    myTree.insert(7);
-    myTree.insert(1);
-    myTree.insert(4);
-    myTree.insert(3);
     myTree.insert(5);
-    myTree.insert(9);
+    myTree.insert(3);
     myTree.insert(8);
+    myTree.insert(2);
+    myTree.insert(4);
+    myTree.insert(7);
+    myTree.insert(9);
+    myTree.insert(1);
 
     //myTree.remove(6);
     //myTree.remove(5);
     //myTree.remove(2);
     //myTree.remove(8);
-    myTree.remove(99);
+    //myTree.remove(99);
 
     cout << "Node Count: " << myTree.nodeCount() << endl;
     cout << "Height: " << myTree.getHeight() << endl;
@@ -44,7 +43,7 @@ int main()
     myTree.postorderTraverse();
 
     cout << endl << "Level Order: ";
-    myTree.levelorderTraverse(); //6, 2, 7, 1, 4, 9, 3, 5, 8
+    myTree.levelorderTraverse(); //5, 3, 8, 2, 4, 7, 9, 1
 
     try
     {
@@ -72,6 +71,8 @@ int main()
     {
         cout << "Tree is empty!" << endl;
     }
+
+    cout << "Is a BST: " << myTree.isBST() << endl;
 
     myTree.printTree();
 
