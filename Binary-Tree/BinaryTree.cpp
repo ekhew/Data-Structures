@@ -389,23 +389,23 @@ size_t BinaryTree<ItemType>::getHeightHelper(Node<ItemType> *root) const
         //get the height of the left and right subtrees, then return the greater of the two; the '+ 1' accounts for the root of the subtree
         return 1 + std::max(getHeightHelper(root->getLeft()), getHeightHelper(root->getRight()));
 
-        /*
+    /*
         Below is basically what the std::max() function does.
-        */
+    */
 
-        /*
+    /*
         size_t left_height = getHeightHelper(root->getLeft());
         size_t right_height = getHeightHelper(root->getRight());
 
         if(left_height > right_height)
         {
-        return (left_height + 1);
+            return (left_height + 1);
         }
         else
         {
-        return (right_height + 1);
+            return (right_height + 1);
         }
-        */
+    */
     }
 }
 
