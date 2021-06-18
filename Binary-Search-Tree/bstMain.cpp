@@ -53,16 +53,7 @@ int main()
 
     try
     {
-        cout << endl << "Search: " << myTree.search(6) << endl;
-    }
-    catch(const std::out_of_range& problem)
-    {
-        cout << "Item not found!" << endl;
-    }
-
-    try
-    {
-        cout << "Min: " << myTree.findMin() << endl;
+        cout << endl << "Min: " << myTree.findMin() << endl;
     }
     catch(const std::out_of_range& problem)
     {
@@ -76,6 +67,24 @@ int main()
     catch(const std::out_of_range& problem)
     {
         cout << "Tree is empty!" << endl;
+    }
+
+    try
+    {
+        cout << "Search: " << myTree.search(6) << endl;
+    }
+    catch(const std::out_of_range& problem)
+    {
+        cout << "Item not found!" << endl;
+    }
+
+    try
+    {
+        cout << "Inorder Successor: " << myTree.inorderSuccessor(6) << endl;
+    }
+    catch(const std::out_of_range& problem)
+    {
+        cout << "No successor found!" << endl;
     }
 
     myTree.printTree();

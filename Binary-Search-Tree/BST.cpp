@@ -155,6 +155,21 @@ void BST<ItemType>::levelorderTraverse()
 }
 
 template<typename ItemType>
+ItemType BST<ItemType>::inorderSuccessor(const ItemType &item)
+{
+    Node<ItemType> *successor_ptr = inorderSuccessorHelper(root_ptr_, item); //pointer to the inorder successor of the specified node
+
+    if(successor_ptr == nullptr) //if no successor was found, throw an exception
+    {
+        throw(std::out_of_range("Position out of range!"));
+    }
+    else //return the item being pointed to by 'successor_ptr'
+    {
+        return successor_ptr->getItem();
+    }
+}
+
+template<typename ItemType>
 void BST<ItemType>::printTree()
 {
     if(!isEmpty())
@@ -270,27 +285,13 @@ Node<ItemType> *BST<ItemType>::removeHelper(Node<ItemType> *root, const ItemType
             }
             else //case 3: two children
             {
-                Node<ItemType> *temp_ptr = inorderSuccessor(root->getRight()); //find the inorder successor and create a pointer to point to it
+                Node<ItemType> *temp_ptr = inorderSuccessorHelper(root, root->getItem()); //find the inorder successor and create a pointer to point to it
                 root->setItem(temp_ptr->getItem()); //replace the old item with a copy of the inorder successor item
                 root->setRight(removeHelper(root->getRight(), temp_ptr->getItem())); //traverse the right subtree and remove the inorder successor
             }
         }
         return root;
     }
-}
-
-template<typename ItemType>
-Node<ItemType> *BST<ItemType>::inorderSuccessor(Node<ItemType> *root) const
-{
-    Node<ItemType> *smallest_ptr = root; //pointer that will traverse the subtree, starting from the root
-
-    //find the leftmost node in the subtree (this would be the node with the smallest value)
-    while(smallest_ptr->getLeft() != nullptr)
-    {
-        smallest_ptr = smallest_ptr->getLeft();
-    }
-
-    return smallest_ptr;
 }
 
 template<typename ItemType>
@@ -424,7 +425,7 @@ void BST<ItemType>::postorderHelper(Node<ItemType> *root)
 template<typename ItemType>
 void BST<ItemType>::levelorderHelper(Node<ItemType> *root)
 {
-    if(root != nullptr) //can only traverse if the tree is not empty
+    if(root != nullptr) //base case; can only traverse if the tree is not empty
     {
         std::queue<Node<ItemType>*> Q; //create a new queue of item type 'Node<ItemType>*'
         Q.push(root);//push the root node into the queue
@@ -450,6 +451,50 @@ void BST<ItemType>::levelorderHelper(Node<ItemType> *root)
             Q.pop(); //pop the parent node from the front of the queue
         }
     }
+}
+
+template<typename ItemType>
+Node<ItemType> *BST<ItemType>::inorderSuccessorHelper(Node<ItemType> *root, const ItemType &item) const
+{
+    Node<ItemType> *node_ptr = searchHelper(root, item); //pointer to the node to find successor of
+
+    if(node_ptr == nullptr) //if the item does not exist in the tree
+    {
+        return nullptr;
+    }
+    //case 1: node has a right subtree; find the leftmost node (the minimum) in the right subtree
+    else if(node_ptr->getRight() != nullptr)
+    {
+        Node<ItemType> *leftmost_ptr = node_ptr->getRight(); //pointer that will traverse the right subtree and store the address of the lefmost node
+
+        while(leftmost_ptr->getLeft() != nullptr) //while it is possible to traverse left, keep traversing left
+        {
+            leftmost_ptr = leftmost_ptr->getLeft();
+        }
+        return leftmost_ptr;
+    }
+    //case 2: node does not have a right subtree; find the deepest ancestor in which the node falls in its left subtree
+    else if(node_ptr->getRight() == nullptr)
+    {
+        Node<ItemType> *successor_ptr = nullptr; //pointer to the successor; will return 'nullptr' if no successor is found
+        Node<ItemType> *ancestor_ptr = root; //pointer to an ancestor; starts from the root of the tree
+
+        while(ancestor_ptr != node_ptr) //traverse the tree until the node is reached
+        {
+            if(node_ptr->getItem() < ancestor_ptr->getItem()) //if the node's item is less than the ancestor's item, then the node is in the ancestor's left subtree
+            {
+                successor_ptr = ancestor_ptr; //keep track of the current deepest ancestor in which the node falls in its left subtree
+                ancestor_ptr = ancestor_ptr->getLeft();
+            }
+            else //if the node's item is greater than the ancestor's item, then the node is in the ancestor's right subtree
+            {
+                ancestor_ptr = ancestor_ptr->getRight();
+            }
+        }
+        return successor_ptr;
+    }
+
+    return nullptr;
 }
 
 template<typename ItemType>

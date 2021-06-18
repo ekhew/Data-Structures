@@ -104,6 +104,13 @@ public:
     void levelorderTraverse();
 
     /*
+        finds the inorder successor of a specified item
+        @param item, item to find the inorder successor of
+        @return a copy of the item's inorder successor
+    */
+    ItemType inorderSuccessor(const ItemType &item);
+
+    /*
         prints the tree
     */
     void printTree();
@@ -138,13 +145,6 @@ private:
         @return pointer to new root after the old root node has been removed
     */
     Node<ItemType> *removeHelper(Node<ItemType> *root, const ItemType &item);
-
-    /*
-        finds the inorder successor of the specified node
-        @param root, pointer to the node to find the inorder successor of
-        @return pointer to the node with the inorder successor
-    */
-    Node<ItemType> *inorderSuccessor(Node<ItemType> *root) const;
 
     /*
         checks the number of nodes currently in the tree
@@ -205,6 +205,14 @@ private:
         @param root, pointer to the root node of a subtree
     */
     void levelorderHelper(Node<ItemType> *root);
+
+    /*
+        finds the inorder successor of the specified node
+        @param root, pointer to the root of the tree
+        @param item, item to find the successor of
+        @return pointer to the node with the inorder successor
+    */
+    Node<ItemType> *inorderSuccessorHelper(Node<ItemType> *root, const ItemType &item) const;
 
     /*
         prints the tree
