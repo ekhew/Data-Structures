@@ -216,7 +216,6 @@ Node<ItemType> *BinaryTree<ItemType>::insertHelper(Node<ItemType> *root, const I
     {
         Node<ItemType> *new_node_ptr = new Node<ItemType>(new_item);
         root = new_node_ptr;
-        return root;
     }
     else //if the tree is not currently empty, insert into the tree
     {
@@ -261,67 +260,102 @@ Node<ItemType> *BinaryTree<ItemType>::insertHelper(Node<ItemType> *root, const I
 template<typename ItemType>
 Node<ItemType> *BinaryTree<ItemType>::removeHelper(Node<ItemType> *root, const ItemType &item)
 {
-    if((nodeCount() == 1) && (root_ptr_->getItem() == item)) //if the tree has only one node and the specified item matches
+    if((root->isLeaf()) && (root->getItem() == item)) //if the tree has only one node and the specified item matches the item of the node
     {
         delete root;
         root = nullptr;
         return root;
     }
-    else if(root != nullptr && searchHelper(root_ptr_, item) != nullptr) //base case; can only traverse if the tree is not empty
+    else //if the tree has more than one node
     {
-        ItemType last_item = getDeepestNode()->getItem(); //get the item at the deepest node using the helper function
+        Node<ItemType> *search_ptr = nullptr; //pointer to the node to delete
+        ItemType last_item; //item in the deepest node
 
-        std::queue<Node<ItemType>*> Q; //create a new queue of item type 'Node<ItemType>*'
-        Q.push(root);//push the root node into the queue
-
-        //replaces the item in the node to delete and deletes the deepest node in a single traversal
-        while(!Q.empty())
+        //find the address of the node to delete and address of the deepest node
+        if(root != nullptr) //can only traverse if the tree is not empty
         {
-            Node<ItemType> *current_ptr = Q.front(); //create a pointer to store the address of the node at the front of the queue
+            std::queue<Node<ItemType>*> Q; //create a new queue of item type 'Node<ItemType>*'
+            Q.push(root);//push the root node into the queue
 
-            //if the current node has an item that matches the item to remove, replace its item with the item at the deepest node
-            if(current_ptr->getItem() == item)
+            while(!Q.empty())
             {
-                current_ptr->setItem(last_item);
-            }
+                Node<ItemType> *current_ptr = Q.front(); //create a pointer to store the address of the node at the front of the queue
 
-            //push the parent node's left child into the queue, if a left child is present
-            if(current_ptr->getLeft() != nullptr)
-            {
-                if(current_ptr->getLeft()->getItem() == last_item) //if the parent has a left child that is the deepest node, delete the child
+                //if the current node's item matches the specified item, return that node's pointer
+                if(current_ptr->getItem() == item)
                 {
-                    delete current_ptr->getLeft();
-                    current_ptr->setLeft(nullptr);
+                    search_ptr = current_ptr;
                 }
-                else
+
+                //push the parent node's left child into the queue, if a left child is present
+                if(current_ptr->getLeft() != nullptr)
                 {
                     Q.push(current_ptr->getLeft());
                 }
-            }
 
-            //push the parent node's right child into the queue, if a right child is present
-            if(current_ptr->getRight() != nullptr)
-            {
-                if(current_ptr->getRight()->getItem() == last_item) //if the parent has a right child that is the deepest node, delete the child
-                {
-                    delete current_ptr->getRight();
-                    current_ptr->setRight(nullptr);
-                }
-                else
+                //push the parent node's right child into the queue, if a right child is present
+                if(current_ptr->getRight() != nullptr)
                 {
                     Q.push(current_ptr->getRight());
                 }
-            }
 
-            Q.pop(); //pop the parent node from the front of the queue
+                last_item = current_ptr->getItem();
+
+                Q.pop(); //pop the parent node from the front of the queue
+            }
         }
 
-        return root;
+        //delete the node
+        if(search_ptr != nullptr) //can only delete if the node was found
+        {
+            std::queue<Node<ItemType>*> Q; //create a new queue of item type 'Node<ItemType>*'
+            Q.push(root);//push the root node into the queue
+
+            //replaces the item in the node to delete and deletes the deepest node in a single traversal
+            while(!Q.empty())
+            {
+                Node<ItemType> *current_ptr = Q.front(); //create a pointer to store the address of the node at the front of the queue
+
+                //if the current node has an item that matches the item to remove, replace its item with the item at the deepest node
+                if(current_ptr->getItem() == item)
+                {
+                    current_ptr->setItem(last_item);
+                }
+
+                //push the parent node's left child into the queue, if a left child is present
+                if(current_ptr->getLeft() != nullptr)
+                {
+                    if(current_ptr->getLeft()->getItem() == last_item) //if the parent has a left child that is the deepest node, delete the child
+                    {
+                        delete current_ptr->getLeft();
+                        current_ptr->setLeft(nullptr);
+                    }
+                    else
+                    {
+                        Q.push(current_ptr->getLeft());
+                    }
+                }
+
+                //push the parent node's right child into the queue, if a right child is present
+                if(current_ptr->getRight() != nullptr)
+                {
+                    if(current_ptr->getRight()->getItem() == last_item) //if the parent has a right child that is the deepest node, delete the child
+                    {
+                        delete current_ptr->getRight();
+                        current_ptr->setRight(nullptr);
+                    }
+                    else
+                    {
+                        Q.push(current_ptr->getRight());
+                    }
+                }
+
+                Q.pop(); //pop the parent node from the front of the queue
+            }
+        }
     }
-    else //if the specified item does not exist in the tree, return the pointer to an unchanged tree
-    {
-        return root;
-    }
+
+    return root;
 }
 
 template<typename ItemType>
@@ -602,8 +636,8 @@ bool BinaryTree<ItemType>::isBSTHelper(Node<ItemType> *root)
 
     if(root->getLeft() != nullptr)
     {
-        //if the root item is less than the minimum of its left subtree, the tree is not a BST
-        if(root->getItem() < findMinHelper(root->getLeft())->getItem())
+        //if the root item is less than the maximum of its left subtree, the tree is not a BST
+        if(root->getItem() < findMaxHelper(root->getLeft())->getItem())
         {
             return false;
         }
@@ -611,8 +645,8 @@ bool BinaryTree<ItemType>::isBSTHelper(Node<ItemType> *root)
 
     if(root->getRight() != nullptr)
     {
-        //if the root item is greater than the maximum of its right subtree, the tree is not a BST
-        if(root->getItem() > findMaxHelper(root->getRight())->getItem())
+        //if the root item is greater than the minimum of its right subtree, the tree is not a BST
+        if(root->getItem() > findMinHelper(root->getRight())->getItem())
         {
             return false;
         }

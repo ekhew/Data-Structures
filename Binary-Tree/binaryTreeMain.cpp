@@ -23,11 +23,12 @@ int main()
     myTree.insert(7);
     myTree.insert(9);
     myTree.insert(1);
+    //myTree.insert(10);
 
-    //myTree.remove(6);
     //myTree.remove(5);
-    //myTree.remove(2);
-    //myTree.remove(8);
+    //myTree.remove(3);
+    //myTree.remove(4);
+    //myTree.remove(1);
     //myTree.remove(99);
 
     cout << "Node Count: " << myTree.nodeCount() << endl;
