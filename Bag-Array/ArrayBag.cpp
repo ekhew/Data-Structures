@@ -27,12 +27,13 @@ bool ArrayBag<ItemType>::insert(const ItemType &item)
 template<typename ItemType>
 bool ArrayBag<ItemType>::remove(const ItemType &item)
 {
-    if(!isEmpty())
+    int location = getIndexOf(item);
+
+    if((!isEmpty()) && (location != -1))
     {
-        int location = getIndexOf(item);
-        item_count_--;
         bag_[location] = bag_[item_count_]; //replace the item with the last item in the bag
 
+        item_count_--;
         return true;
     }
     else
