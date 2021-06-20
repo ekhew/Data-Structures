@@ -41,6 +41,7 @@ bool ArrayQueue<ItemType>::dequeue()
         //if the item being removed is the only item in the queue, set 'back_index_' to -1 to indicate that the array is empty
         if(item_count_ == 1)
         {
+            front_index_ = -1;
             back_index_ = -1;
         }
 
