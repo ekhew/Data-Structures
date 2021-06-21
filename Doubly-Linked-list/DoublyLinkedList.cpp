@@ -73,10 +73,10 @@ bool DoublyLinkedList<ItemType>::insert(size_t position, const ItemType &new_ite
     }
     else //insert in the middle of the list
     {
+        pos_ptr->getPrev()->setNext(new_node_ptr);
         new_node_ptr->setNext(pos_ptr);
         new_node_ptr->setPrev(pos_ptr->getPrev());
         pos_ptr->setPrev(new_node_ptr);
-        pos_ptr->getPrev()->setNext(new_node_ptr);
     }
 
     item_count_++;
@@ -90,7 +90,18 @@ bool DoublyLinkedList<ItemType>::remove(size_t position)
     {
         Node<ItemType>* pos_ptr = getPointerTo(position); //creates a pointer for the node at the specified position
 
-        if(pos_ptr == head_ptr_) //remove the first node in the list
+        if(item_count_ == 1) //if the list has only one node
+        {
+            Node<ItemType> *temp_ptr = head_ptr_;
+
+            head_ptr_ = nullptr;
+            tail_ptr_ = nullptr;
+            temp_ptr->setNext(nullptr);
+            temp_ptr->setPrev(nullptr);
+            delete temp_ptr;
+            temp_ptr = nullptr;
+        }
+        else if(pos_ptr == head_ptr_) //remove the first node in the list
         {
             head_ptr_ = head_ptr_->getNext(); //point the head pointer to the second node
             head_ptr_->setPrev(nullptr);
