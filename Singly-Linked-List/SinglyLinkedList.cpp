@@ -64,10 +64,10 @@ bool SinglyLinkedList<ItemType>::insert(size_t position, const ItemType &new_ite
     }
     else //insert in the middle of the list
     {
-        Node<ItemType> *next_pos_ptr = getPointerTo(position + 1); //pointer to the node directly after the position specified
+        Node<ItemType> *prev_pos_ptr = getPointerTo(position - 1); //pointer to the node directly before the position specified
 
-        pos_ptr->setNext(new_node_ptr);
-        new_node_ptr->setNext(next_pos_ptr);
+        prev_pos_ptr->setNext(new_node_ptr);
+        new_node_ptr->setNext(pos_ptr);
     }
 
     item_count_++;
