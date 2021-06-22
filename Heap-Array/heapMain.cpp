@@ -15,16 +15,18 @@ int main()
     Heap<int> myHeap;
 
     myHeap.insert(11);
-    myHeap.insert(2);
+    myHeap.insert(10);
     myHeap.insert(7);
     myHeap.insert(9);
     myHeap.insert(5);
     myHeap.insert(6);
     myHeap.insert(4);
     myHeap.insert(8);
-    myHeap.insert(10);
+    myHeap.insert(2);
     myHeap.insert(3);
     myHeap.insert(1);
+
+    //myHeap.remove();
 
     cout << "Display: ";
     myHeap.display();
@@ -32,10 +34,17 @@ int main()
     myHeap.peek();
     cout << endl << "Empty?: " << myHeap.isEmpty() << endl;
     cout << "Full?: " << myHeap.isFull() << endl;
+    cout << "Height: " << myHeap.getHeight() << endl << endl;
 
+    /*
+        clear function test
+    */
     myHeap.clear();
-    cout << "Peek (After Clear): ";
+    cout << "Display (After Clear): ";
+    myHeap.display();
+    cout << endl << "Peek (After Clear): ";
     myHeap.peek();
     cout << endl << "Empty? (After Clear): " << myHeap.isEmpty() << endl;
     cout << "Full? (After Clear): " << myHeap.isFull() << endl;
+    cout << "Height: " << myHeap.getHeight() << endl;
 }

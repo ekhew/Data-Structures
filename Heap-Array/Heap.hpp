@@ -34,16 +34,10 @@ public:
     void clear();
 
     /*
-        returns the right child of the specified item
-        @param item, item to get right child of
+        returns the current height of the heap; counts the height in nodes
+        @return integer representing the height of the heap
     */
-    ItemType getRightChild(ItemType &item);
-
-    /*
-        returns the right child of the specified item
-        @param item, item to get left child of
-    */
-    ItemType getLeftChild(ItemType &item);
+    int getHeight() const;
 
     /*
         checks if the heap is empty
@@ -72,10 +66,16 @@ private:
     size_t item_count_; //total number of items currently in the heap
 
     /*
-        heapifies the array
-        @param item, item to check with parent to see if heap conditions are satisfied
+        heapifies the array in a bottom-up approach
+        @param item_index, index of item to check with parent to see if heap conditions are satisfied
     */
-    void heapify(const ItemType &item);
+    void insertHeapify(const ItemType &item_index);
+
+    /*
+        heapifies the array in a top-down approach
+        @param item_index, index of item to check with children to see if heap conditions are satisfied
+    */
+    void removeHeapify(const ItemType &item_index);
 };
 
 #include "Heap.cpp"
