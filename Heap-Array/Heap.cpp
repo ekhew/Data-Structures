@@ -27,7 +27,7 @@ void Heap<ItemType>::insertHeapify(const ItemType &item_index)
 {
     int parent_index = (item_index - 1) / 2; //index of the item's parent
 
-    if(heap_[item_index] > heap_[parent_index]) //if the child is greater than it parent, swap indices; use '>' for max-heap and '<' for min-heap
+    if(heap_[item_index] > heap_[parent_index]) //swap if the child is greater (or less than for min-heap) than its parent; use '>' for max-heap and '<' for min-heap
     {
         //swap
         ItemType temp = heap_[item_index];
@@ -51,18 +51,22 @@ void Heap<ItemType>::remove()
     }
 }
 
+//max-heap heapify
 template<typename ItemType>
 void Heap<ItemType>::removeHeapify(const ItemType &item_index)
 {
     int left_child_index = (2 * item_index) + 1; //index of the item's left child
     int right_child_index = (2 * item_index) + 2; //index of the item's right child
-    int greater_child_index = item_index; //index of the child that is greater (or lesser for min-heap); if no children are present, then the index will be that of the root
+    int greater_child_index = item_index; //index of the child that is greater; if no children are present, then the index will be that of the root
 
-    if((left_child_index < item_count_) && (heap_[left_child_index] > heap_[greater_child_index])) //if the index of 'left_child' exists and its item is greater than that of the current greater child; use '>' for max-heap and '<' for min-heap
+    //if the index of 'left_child' exists and its item is greater than that of the current greater child
+    if((left_child_index < item_count_) && (heap_[left_child_index] > heap_[greater_child_index]))
     {
         greater_child_index = left_child_index;
     }
-    else if((right_child_index < item_count_) && (heap_[right_child_index] > heap_[greater_child_index])) //if the index of 'right_child' exists and its item is greater than that of the current greater child; use '>' for max-heap and '<' for min-heap
+
+    //if the index of 'right_child' exists and its item is greater than that of the current greater child
+    if((right_child_index < item_count_) && (heap_[right_child_index] > heap_[greater_child_index]))
     {
         greater_child_index = right_child_index;
     }
@@ -78,6 +82,42 @@ void Heap<ItemType>::removeHeapify(const ItemType &item_index)
         removeHeapify(greater_child_index);
     }
 }
+
+/*
+
+//min-heap heapify
+template<typename ItemType>
+void Heap<ItemType>::removeHeapify(const ItemType &item_index)
+{
+    int left_child_index = (2 * item_index) + 1; //index of the item's left child
+    int right_child_index = (2 * item_index) + 2; //index of the item's right child
+    int lesser_child_index = item_index; //index of the child that is lesser; if no children are present, then the index will be that of the root
+
+    //if the index of 'left_child' exists and its item is less than that of the current lesser child
+    if((left_child_index < item_count_) && (heap_[left_child_index] < heap_[lesser_child_index]))
+    {
+        lesser_child_index = left_child_index;
+    }
+
+    //if the index of 'right_child' exists and its item is less than that of the current lesser child
+    if((right_child_index < item_count_) && (heap_[right_child_index] < heap_[lesser_child_index]))
+    {
+        lesser_child_index = right_child_index;
+    }
+
+    if(lesser_child_index != item_index) //can only swap if a child is present
+    {
+        //swap
+        ItemType temp = heap_[item_index];
+        heap_[item_index] = heap_[lesser_child_index];
+        heap_[lesser_child_index] = temp;
+
+        //recursively call the function to continue heapifying
+        removeHeapify(lesser_child_index);
+    }
+}
+
+*/
 
 template<typename ItemType>
 void Heap<ItemType>::clear()
