@@ -1,8 +1,8 @@
 /*
-Title: Build Heap & Heapify
+Title: Heap Sort
 Author: Edwin Khew
-Description: Building a heap from a given non-heap array.
-Date Created: 6/24/2021
+Description: Using heap sort to sort a given array.
+Date Created: 6/25/2021
 */
 
 #include <iostream>
@@ -10,10 +10,10 @@ Date Created: 6/24/2021
 /*
     checks to see if the specified root node satisfies the conditions of a heap  by checking with its children
     @param arr[], array where the heapifying will take place
-    @param root_index, index of a root node to check with its children to see if it satisfies the conditions of a heap
     @param size, size of the array
+    @param root_index, index of a root node to check with its children to see if it satisfies the conditions of a heap
 */
-void heapify(int arr[], int root_index, int size)
+void heapify(int arr[], int size, int root_index)
 {
     int left_child_index = (2 * root_index) + 1; //index of the item's left child
     int right_child_index = (2 * root_index) + 2; //index of the item's right child
@@ -44,29 +44,40 @@ void heapify(int arr[], int root_index, int size)
 }
 
 /*
-    builds a heap from the given array by heapifying every node starting from the deepest non-leaf node
-    @param arr[], array to create a heap with
+    sorts a given array using heap sort
+    @param arr[], array to sort using heap sort
     @param size, size of the array
 */
-void buildHeap(int arr[], int size)
+void heapSort(int arr[], int size)
 {
-    int start_index = (size / 2) - 1; //index of the deepest non-leaf node; start here because leaves are already considered heapified
-
-    for(int i = start_index; i >= 0; i--) //backwards level order traversal; heapify each node
+    //build heap; backwards level order traversal; heapify each node; start at index of the deepest non-leaf node because leaves are already considered heapified
+    for(int i = (size / 2) - 1; i >= 0; i--)
     {
-        heapify(arr, i, size);
+        heapify(arr, size, i);
+    }
+
+    //sorts using the heap that was just built
+    for(int i = size - 1; i > 0; i--) //'i', the index of the last item, decrements after each iteration
+    {
+        //swap the first item with the last item in the 'unsorted' section of the array
+        int temp = arr[0];
+        arr[0] = arr[i];
+        arr[i] = temp;
+
+        //heapify the 'unsorted' section of the array
+        heapify(arr, i, 0);
     }
 }
 
 int main()
 {
-    int arr[] = {2, 4, 15, 6, 18, 12, 10, 9, 8, 23, 27}; //array to heapify
+    int arr[] = {2, 4, 15, 6, 18, 12, 10, 9, 8, 23, 27}; //array to sort
 
-    int size = sizeof(arr) / sizeof(arr[0]); //size of the array to heapify
+    int size = sizeof(arr) / sizeof(arr[0]); //size of the array to sort
 
-    buildHeap(arr, size);
+    heapSort(arr, size);
 
-    //print the heapified array
+    //print the sorted array
     for(int i = 0; i < size; i++)
     {
         std::cout << arr[i] << " ";
