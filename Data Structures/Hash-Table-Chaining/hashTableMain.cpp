@@ -28,7 +28,28 @@ int main()
     myTable.insert(295, "Tara");
     myTable.insert(334, "Rosa");
 
-    myTable.remove(301);
+    //myTable.remove(301);
 
+    cout << "Is Empty: " << myTable.isEmpty() << endl;
+    cout << "Item Count: " << myTable.itemCount() << endl;
+    cout << "Contains: " << myTable.contains(301) << endl;
+
+    try
+    {
+        cout << "Get Value: " << myTable.getValue(279) << endl;
+    }
+    catch(const std::out_of_range& problem)
+    {
+        cout << "Item not found!" << endl;
+    }
+
+    cout << "Display: " << endl << endl;
+    myTable.display();
+
+    myTable.clear();
+
+    cout << endl << "Is Empty (After clear): " << myTable.isEmpty() << endl;
+    cout << "Item Count (After clear): " << myTable.itemCount() << endl;
+    cout << "Display (After clear): " << endl << endl;
     myTable.display();
 }

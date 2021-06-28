@@ -44,6 +44,12 @@ public:
     bool isEmpty();
 
     /*
+        returns the number of items currently in the table
+        @return an integer representing the number of items currently in the table
+    */
+    size_t itemCount();
+
+    /*
         returns the item with the specified key
         @param key, key of the item to search for
         @return the item with the matching key
@@ -62,6 +68,7 @@ public:
     */
     void display();
 private:
+    size_t item_count_;
     static const int TABLE_SIZE = 11; //capacity of the hash table; the total number of available buckets
     std::list<HashItem<ItemType>> hash_table_[TABLE_SIZE]; //array of linked lists
 
