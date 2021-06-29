@@ -27,6 +27,8 @@ int main()
     myTable.insert(294, "Jessie");
     myTable.insert(295, "Tara");
     myTable.insert(334, "Rosa");
+    myTable.insert(292, "Crow");
+    myTable.insert(300, "Lou");
 
     //myTable.remove(301);
 

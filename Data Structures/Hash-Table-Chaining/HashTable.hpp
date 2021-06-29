@@ -68,9 +68,9 @@ public:
     */
     void display();
 private:
-    size_t item_count_;
-    static const int TABLE_SIZE = 11; //capacity of the hash table; the total number of available buckets
-    std::list<HashItem<ItemType>> hash_table_[TABLE_SIZE]; //array of linked lists
+    size_t item_count_; //current number of items in the table
+    size_t table_size_; //capacity of the hash table; the total number of available buckets
+    std::list<HashItem<ItemType>> *hash_table_; //array of linked lists
 
     /*
         hash function; converts a key to an address
@@ -78,6 +78,17 @@ private:
         @return an integer representing the address of the item
     */
     int hashFunction(int key);
+
+    /*
+        returns the load factor of the hash table
+        @return a decimal number representing the current load factor of the table
+    */
+    double loadFactor();
+
+    /*
+        rehashes the table when the load factor exceeds the limit
+    */
+    void rehashTable();
 };
 
 #include "HashTable.cpp"

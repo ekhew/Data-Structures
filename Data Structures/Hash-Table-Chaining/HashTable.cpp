@@ -8,7 +8,10 @@ Date Created: 6/27/2021
 #include <list>
 
 template<typename ItemType>
-HashTable<ItemType>::HashTable():item_count_(0) { }
+HashTable<ItemType>::HashTable():item_count_(0), table_size_(11)
+{
+    hash_table_ = new std::list<HashItem<ItemType>>[table_size_];
+}
 
 template<typename ItemType>
 void HashTable<ItemType>::insert(int key, ItemType value)
@@ -20,6 +23,13 @@ void HashTable<ItemType>::insert(int key, ItemType value)
     hash_table_[address].push_back(new_item); //insert the new item to the back of the list at the address
 
     item_count_++;
+
+    //if the load factor exceeds the specified limit after insertion of the new item, expand and rehash the table
+    if(loadFactor() > 0.7)
+    {
+        rehashTable();
+    }
+
 }
 
 template<typename ItemType>
@@ -47,7 +57,7 @@ void HashTable<ItemType>::remove(int key)
 template<typename ItemType>
 void HashTable<ItemType>::clear()
 {
-    for(int i = 0; i < TABLE_SIZE; i++) //loop through each index of the array
+    for(int i = 0; i < table_size_; i++) //loop through each index of the array
     {
         hash_table_[i].erase(hash_table_[i].begin(), hash_table_[i].end()); //for each list in the array, remove every item (erase in the range: first item -> past the last item)
     }
@@ -116,11 +126,11 @@ bool HashTable<ItemType>::contains(int key)
 template<typename ItemType>
 void HashTable<ItemType>::display()
 {
-    for(int i = 0; i < TABLE_SIZE; i++)
+    for(int i = 0; i < table_size_; i++) //loop through each index of the array
     {
         std::cout << i;
 
-        for(auto j : hash_table_[i])
+        for(auto j : hash_table_[i]) //loop through the individual linked lists in each index using a ranged-based 'for' loop
         {
             std::cout << " --> " << j.getValue();
         }
@@ -132,5 +142,32 @@ void HashTable<ItemType>::display()
 template<typename ItemType>
 int HashTable<ItemType>::hashFunction(int key)
 {
-    return key % TABLE_SIZE;
+    return key % table_size_;
+}
+
+template<typename ItemType>
+double HashTable<ItemType>::loadFactor()
+{
+    return (1.0 * item_count_) / table_size_;
+}
+
+template<typename ItemType>
+void HashTable<ItemType>::rehashTable()
+{
+    std::list<HashItem<ItemType>> *temp = hash_table_; //create a temporary copy of the old table
+
+    size_t temp_size = table_size_; //create a temporary copy of the old table size
+    table_size_ = 2 * table_size_; //increase the table size
+    item_count_ = 0; //reset the item count
+
+    hash_table_ = new std::list<HashItem<ItemType>>[table_size_]; //create a new array of lists with the increased size
+
+    //loop through the temporary copy and insert each item into the new table
+    for(int i = 0; i < temp_size; i++)
+    {
+        for(auto j : temp[i])
+        {
+            insert(j.getKey(), j.getValue());
+        }
+    }
 }
