@@ -170,4 +170,8 @@ void HashTable<ItemType>::rehashTable()
             insert(j.getKey(), j.getValue());
         }
     }
+
+    //delete the old table and free memory
+    delete[] temp;
+    temp = nullptr;
 }
