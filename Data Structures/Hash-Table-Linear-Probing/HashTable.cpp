@@ -1,0 +1,178 @@
+/*
+Title: Hash Table (using linear probing)
+Author: Edwin Khew
+Description: Hash table class implementation.
+Date Created: 6/30/2021
+*/
+
+#include <list>
+
+template<typename ItemType>
+HashTable<ItemType>::HashTable():item_count_(0), table_size_(11)
+{
+    hash_table_ = new HashItem<ItemType> *[table_size_];
+
+    //set each index to 'nullptr'
+    for(int i = 0; i < table_size_; i++)
+    {
+        hash_table_[i] = nullptr;
+    }
+}
+
+template<typename ItemType>
+void HashTable<ItemType>::insert(int key, ItemType value)
+{
+    int address = hashFunction(key); //hash the key to get its address
+
+    HashItem<ItemType> *new_item = new HashItem<ItemType>(key, value); //create a new hash item (key-value pair)
+
+    //insert at the first available index found
+    while(hash_table_[address] != nullptr)
+    {
+        address = (address + 1) % table_size_; //increment the index
+    }
+
+    hash_table_[address] = new_item;
+
+    item_count_++;
+
+    //if the load factor exceeds the specified limit after insertion of the new item, expand and rehash the table
+    if(loadFactor() > 0.7)
+    {
+        rehashTable();
+    }
+}
+
+template<typename ItemType>
+void HashTable<ItemType>::remove(int key)
+{
+    int address = hashFunction(key); //hash the key to get its address
+
+    while(hash_table_[address] != nullptr) //checks all consecutive items until an empty index is reached; when an empty index is reached, then the item does not exist
+    {
+        //when an item with a matching key is found, remove it
+        if(hash_table_[address]->getKey() == key)
+        {
+            hash_table_[address] = nullptr;
+            break;
+        }
+
+        address = (address + 1) % table_size_; //increment the index
+    }
+}
+
+template<typename ItemType>
+void HashTable<ItemType>::clear()
+{
+    for(int i = 0; i < table_size_; i++) //loop through each index of the array
+    {
+        hash_table_[i] = nullptr;
+    }
+
+    item_count_ = 0;
+}
+
+template<typename ItemType>
+bool HashTable<ItemType>::isEmpty()
+{
+    return item_count_ == 0;
+}
+
+template<typename ItemType>
+size_t HashTable<ItemType>::itemCount()
+{
+    return item_count_;
+}
+
+template<typename ItemType>
+ItemType HashTable<ItemType>::getValue(int key)
+{
+    int address = hashFunction(key); //hash the key to get its address
+
+    while(hash_table_[address] != nullptr)
+    {
+        //when an item with a matching key is found, return its value
+        if(hash_table_[address]->getKey() == key)
+        {
+            return hash_table_[address]->getValue();
+        }
+
+        address = (address + 1) % table_size_; //increment the index
+    }
+
+    //if no matching key was found, throw an exception
+    throw(std::out_of_range("Position out of range!"));
+}
+
+template<typename ItemType>
+bool HashTable<ItemType>::contains(int key)
+{
+    int address = hashFunction(key); //hash the key to get its address
+
+    while(hash_table_[address] != nullptr)
+    {
+        //when an item with a matching key is found, return true
+        if(hash_table_[address]->getKey() == key)
+        {
+            return true;
+        }
+
+        address = (address + 1) % table_size_; //increment the index
+    }
+
+    //if no matching key was found, return false
+    return false;
+}
+
+template<typename ItemType>
+void HashTable<ItemType>::display()
+{
+    for(int i = 0; i < table_size_; i++)
+    {
+        if(hash_table_[i] == nullptr)
+        {
+            std::cout << i << " " << std::endl;
+        }
+        else
+        {
+            std::cout << i << " " << hash_table_[i]->getValue() << std::endl;
+        }
+    }
+}
+
+template<typename ItemType>
+int HashTable<ItemType>::hashFunction(int key)
+{
+    return key % table_size_;
+}
+
+template<typename ItemType>
+double HashTable<ItemType>::loadFactor()
+{
+    return (1.0 * item_count_) / table_size_;
+}
+
+template<typename ItemType>
+void HashTable<ItemType>::rehashTable()
+{
+    HashItem<ItemType> **temp = hash_table_; //create a temporary copy of the old table
+
+    size_t temp_size = table_size_; //create a temporary copy of the old table size
+    table_size_ = 2 * table_size_; //increase the table size
+    item_count_ = 0; //reset the item count
+
+    hash_table_ = new HashItem<ItemType> *[table_size_]; //create a new array of pointers with the increased size
+
+    //loop through the temporary copy and insert each item into the new table
+    for(int i = 0; i < temp_size; i++)
+    {
+        if(temp[i] != nullptr)
+        {
+            insert(temp[i]->getKey(), temp[i]->getValue());
+        }
+    }
+
+    //delete the old table and free memory
+    delete[] temp;
+    temp = nullptr;
+}
