@@ -13,45 +13,55 @@ using namespace std;
 
 int main()
 {
-    HashTable<string> myTable;
+	HashTable<string> myTable;
 
-    myTable.insert(279, "Penny");
-    myTable.insert(298, "Shelly");
-    myTable.insert(264, "Colt");
-    myTable.insert(302, "Spike");
-    myTable.insert(301, "Brock");
-    myTable.insert(287, "Edgar");
-    myTable.insert(289, "Sandy");
-    myTable.insert(304, "Leon");
-    myTable.insert(280, "Bea");
-    myTable.insert(294, "Jessie");
-    myTable.insert(295, "Tara");
-    myTable.insert(334, "Rosa");
-    myTable.insert(292, "Crow");
-    myTable.insert(300, "Lou");
+	myTable.insert(279, "Penny");
+	myTable.insert(298, "Shelly");
+	myTable.insert(264, "Colt");
+	myTable.insert(302, "Spike");
+	myTable.insert(301, "Brock");
+	myTable.insert(287, "Edgar");
+	myTable.insert(289, "Sandy");
+	myTable.insert(304, "Leon");
+	myTable.insert(280, "Bea");
+	myTable.insert(294, "Jessie");
+	myTable.insert(295, "Tara");
+	myTable.insert(334, "Rosa");
+	myTable.insert(292, "Crow");
+	myTable.insert(300, "Lou");
 
-    //myTable.remove(301);
+	//myTable.remove(301);
 
-    cout << "Is Empty: " << myTable.isEmpty() << endl;
-    cout << "Item Count: " << myTable.itemCount() << endl;
-    cout << "Contains: " << myTable.contains(301) << endl;
+	//Clustering test
+/*
+	myTable.insert(3, "A");
+	myTable.insert(14, "B");
+	myTable.insert(25, "C");
+	myTable.insert(36, "D");
+	myTable.insert(47, "E");
+	myTable.insert(58, "G");
+*/
 
-    try
-    {
-        cout << "Get Value: " << myTable.getValue(279) << endl;
-    }
-    catch(const std::out_of_range& problem)
-    {
-        cout << "Item not found!" << endl;
-    }
+	cout << "Is Empty: " << myTable.isEmpty() << endl;
+	cout << "Item Count: " << myTable.itemCount() << endl;
+	cout << "Contains: " << myTable.contains(301) << endl;
 
-    cout << "Display: " << endl << endl;
-    myTable.display();
+	try
+	{
+		cout << "Get Value: " << myTable.getValue(279) << endl;
+	}
+	catch(const std::out_of_range& problem)
+	{
+		cout << "Item not found!" << endl;
+	}
 
-    myTable.clear();
+	cout << "Display: " << endl << endl;
+	myTable.display();
 
-    cout << endl << "Is Empty (After clear): " << myTable.isEmpty() << endl;
-    cout << "Item Count (After clear): " << myTable.itemCount() << endl;
-    cout << "Display (After clear): " << endl << endl;
-    myTable.display();
+	myTable.clear();
+
+	cout << endl << "Is Empty (After clear): " << myTable.isEmpty() << endl;
+	cout << "Item Count (After clear): " << myTable.itemCount() << endl;
+	cout << "Display (After clear): " << endl << endl;
+	myTable.display();
 }
