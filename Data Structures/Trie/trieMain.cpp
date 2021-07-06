@@ -29,6 +29,8 @@ int main()
     myTrie.insert("dinosaur");
     myTrie.insert("keyboard");
 
+    myTrie.remove("there");
+
     cout << "Is Empty: " << myTrie.isEmpty() << endl;
     cout << "Word Count: " << myTrie.getWordCount() << endl;
     cout << "Prefix Count: " << myTrie.startsWith("theo") << endl;

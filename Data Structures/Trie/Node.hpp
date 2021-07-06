@@ -46,6 +46,12 @@ public:
     */
     bool getIsWord();
 
+    /*
+        checks whether the node has any children
+        @return true if at least one child is present, and false if no children are present
+    */
+    bool hasChildren();
+
     static const int CHILDREN_ = 26; //maximum number of children that a node can have; 26 in this case for characters a-z
     Node *children_[CHILDREN_]; //array of pointer to the children of the node
 private:

@@ -66,8 +66,24 @@ public:
     */
     void display();
 private:
-    size_t word_count_; //number of keys currently in the trie
     Node *root_ptr_; //pointer to the root node of the trie
+
+    /*
+        removes a word from the trie
+        @param root, current node in the traversal
+        @param word, the word to remove
+        @param depth, current depth of the traversal
+        @return pointer to the node that was just modified
+    */
+    Node *removeHelper(Node *root, std::string word, int depth);
+
+    /*
+        removes every word currently in the trie
+        @param root, root node of the subtree
+        @param word_array[], array used to build words
+        @param pos, position in the word array
+    */
+    void clearHelper(Node *root, char word_array[], int pos);
 
     /*
         displays all the words currently in the trie
@@ -89,7 +105,7 @@ private:
         @param root, node to start counting from
         @return integer representing the word count
     */
-    int wordCount(Node *root);
+    int wordCountHelper(Node *root);
 };
 
 #include "Trie.cpp"

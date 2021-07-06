@@ -28,3 +28,16 @@ bool Node::getIsWord()
 {
     return is_word_;
 }
+
+bool Node::hasChildren()
+{
+    for(int i = 0; i < CHILDREN_; i++) //traverse through the entire array of pointers
+    {
+        if(children_[i] != nullptr) //if a child is found, return false
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
