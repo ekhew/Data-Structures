@@ -40,33 +40,38 @@ public:
         @param word, the word to search for
         @return true if the word was found, and false if the word was not found
     */
-    bool search(std::string word);
+    bool search(std::string word) const;
+
+    /*
+        returns the number of words currently in the trie
+        @return 'word_count_'
+    */
+    int getWordCount() const;
 
     /*
         checks the trie for words that begin with the specified prefix
         @param prefix, the prefix to search for
         @return an integer representing the number of words that begin with the prefix
     */
-    int startsWith(std::string prefix);
+    int getPrefixCount(std::string prefix) const;
+
+    /*
+        returns the numbe of occurences of the specified word
+        @param word, word to find the occurrence count of
+        @return an integer representing the occurrence count of the word
+    */
+    int getOccurrenceCount(std::string word) const;
 
     /*
         checks to see if the trie is currently empty
         @return true if the trie is empty, and false if not empty
     */
-    bool isEmpty();
-
-    /*
-        returns the number of words currently in the trie
-        @return 'word_count_'
-    */
-    size_t getWordCount();
+    bool isEmpty() const;
 
     /*
         displays all the words currently in the trie
     */
-    void display();
-
-    void testArrayDisplay();
+    void display() const;
 private:
     Node *root_ptr_; //pointer to the root node of the trie
 
@@ -91,14 +96,14 @@ private:
         @param word, the word or prefix to search for
         @return pointer to the last node of the word or prefix if found, or 'nullptr' if not found
     */
-    Node *searchHelper(std::string word);
+    Node *searchHelper(std::string word) const;
 
     /*
         counts the number of nodes starting from the specified root node
         @param root, node to start counting from
         @return integer representing the word count
     */
-    int wordCountHelper(Node *root);
+    int wordCountHelper(Node *root) const;
 
     /*
         displays all the words currently in the trie
@@ -106,7 +111,7 @@ private:
         @param word_array[], array used to build words
         @param pos, current position in the word array
     */
-    void displayHelper(Node *root, char word_array[], int pos);
+    void displayHelper(Node *root, char word_array[], int pos) const;
 };
 
 #include "Trie.cpp"

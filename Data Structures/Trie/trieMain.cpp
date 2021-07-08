@@ -25,6 +25,8 @@ int main()
     myTrie.insert("apocalypse");
     myTrie.insert("agriculture");
     myTrie.insert("dinosaur");
+    myTrie.insert("dinosaur");
+    myTrie.insert("dinosaur");
     //myTrie.insert("number5");
     //myTrie.insert("CAPS");
     //myTrie.insert("space between");
@@ -37,9 +39,12 @@ int main()
     //myTrie.remove("theoretical"); //shares prefix with other words
     //myTrie.insert("zebra"); //test; insert after remove
 
+    //myTrie.testArrayDisplay();
+
     cout << "Is Empty: " << myTrie.isEmpty() << endl;
     cout << "Word Count: " << myTrie.getWordCount() << endl;
-    cout << "Prefix Count: " << myTrie.startsWith("ap") << endl;
+    cout << "Prefix Count: " << myTrie.getPrefixCount("ap") << endl;
+    cout << "Occurrence Count: " << myTrie.getOccurrenceCount("dinosaur") << endl;
     cout << "Search: " << myTrie.search("there") << endl;
     cout << "Display: " << endl << endl;
     myTrie.display();
@@ -52,7 +57,8 @@ int main()
 
     cout << endl << "Is Empty (After Clear): " << myTrie.isEmpty() << endl;
     cout << "Word Count (After Clear): " << myTrie.getWordCount() << endl;
-    cout << "Prefix Count (After Clear): " << myTrie.startsWith("ap") << endl;
+    cout << "Prefix Count (After Clear): " << myTrie.getPrefixCount("ap") << endl;
+    cout << "Occurrence Count (After Clear): " << myTrie.getOccurrenceCount("dinosaur") << endl;
     cout << "Search (After Clear): " << myTrie.search("there") << endl;
     cout << "Display (After Clear): " << endl << endl;
     myTrie.display();

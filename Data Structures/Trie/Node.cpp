@@ -5,9 +5,9 @@ Description: Trie node class implementation.
 Date Created: 7/4/2021
 */
 
-Node::Node():character_('\0'), end_of_word_(false) { }
+Node::Node():character_('\0'), end_of_word_(false), occurence_count_(0) { }
 
-Node::Node(char c):character_(c), end_of_word_(false) { }
+Node::Node(char c):character_(c), end_of_word_(false), occurence_count_(0) { }
 
 void Node::setChar(char c)
 {
@@ -19,6 +19,19 @@ void Node::setEndOfWord(bool end_of_word)
     end_of_word_ = end_of_word;
 }
 
+void Node::incrementOccurrenceCount()
+{
+    occurence_count_++;
+}
+
+void Node::decrementOccurrenceCount()
+{
+    if(occurence_count_ != 0) //cannot have a negative occurrence count
+    {
+        occurence_count_--;
+    }
+}
+
 char Node::getChar()
 {
     return character_;
@@ -27,6 +40,11 @@ char Node::getChar()
 bool Node::getEndOfWord()
 {
     return end_of_word_;
+}
+
+int Node::getOccurrenceCount()
+{
+    return occurence_count_;
 }
 
 bool Node::hasChildren()

@@ -17,7 +17,7 @@ public:
     Node();
 
     /*
-        paramterized constructor
+        parameterized constructor
         @param c, character that the node will represent
     */
     Node(char c);
@@ -35,6 +35,16 @@ public:
     void setEndOfWord(bool end_of_word);
 
     /*
+        increments the occurence count
+    */
+    void incrementOccurrenceCount();
+
+    /*
+        decrements the occurence count
+    */
+    void decrementOccurrenceCount();
+
+    /*
         returns the character of the calling node
         @return 'character_'
     */
@@ -47,6 +57,12 @@ public:
     bool getEndOfWord();
 
     /*
+        gets the occurrence count of the node
+        @return 'occurrence_count_'
+    */
+    int getOccurrenceCount();
+
+    /*
         checks whether the node has any children
         @return true if at least one child is present, and false if no children are present
     */
@@ -57,6 +73,7 @@ public:
 private:
     char character_; //character that the node represents
     bool end_of_word_; //true if the node represents the end of a word, and false otherwise
+    int occurence_count_; //number of times a word occurs; will equal '0' for every node except for those marked as an end of a word
 };
 
 #include "Node.cpp"

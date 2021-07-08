@@ -32,6 +32,7 @@ void Trie::insert(std::string new_word)
     }
 
     curr_ptr->setEndOfWord(true); //mark the last character as the end of the word
+    curr_ptr->incrementOccurrenceCount(); //increment the occurence count of the word
 }
 
 void Trie::remove(std::string word)
@@ -44,14 +45,19 @@ void Trie::clear()
     clearHelper(root_ptr_);
 }
 
-bool Trie::search(std::string word)
+bool Trie::search(std::string word) const
 {
     Node *word_ptr = searchHelper(word); //pointer to the last node of the word if found, or 'nullptr' if not found
 
     return word_ptr != nullptr && word_ptr->getEndOfWord(); //true if the word exists and not just as a prefix of a larger word
 }
 
-int Trie::startsWith(std::string prefix)
+int Trie::getWordCount() const
+{
+    return wordCountHelper(root_ptr_);
+}
+
+int Trie::getPrefixCount(std::string prefix) const
 {
     Node *prefix_ptr = searchHelper(prefix); //pointer to the last node of the prefix if found, or 'nullptr' if the prefix was not found
     int total = 0;
@@ -64,17 +70,33 @@ int Trie::startsWith(std::string prefix)
     return total;
 }
 
-bool Trie::isEmpty()
+int Trie::getOccurrenceCount(std::string word) const
+{
+    Node *curr_ptr = root_ptr_; //pointer that will be used to traverse the tree
+
+    for(int i = 0; i < word.length(); i++) //loop through every character in the word
+    {
+        char c = word[i]; //extract the current character in the word and store into 'c'
+        int index = c - 'a'; //index of the current character
+
+        //if a character does not exist, then the word does not exist, so occurence count is '0'
+        if(curr_ptr->children_[index] == nullptr)
+        {
+            return 0;
+        }
+
+        curr_ptr = curr_ptr->children_[index]; //traverse down the tree to the next character of the word
+    }
+
+    return curr_ptr->getOccurrenceCount(); //get the value of 'occurrence_count_' of the last node
+}
+
+bool Trie::isEmpty() const
 {
     return !root_ptr_->hasChildren();
 }
 
-size_t Trie::getWordCount()
-{
-    return wordCountHelper(root_ptr_);
-}
-
-void Trie::display()
+void Trie::display() const
 {
     if(!isEmpty()) //can only display if trie is not empty
     {
@@ -102,20 +124,29 @@ Node *Trie::removeHelper(Node *root, std::string word, int depth)
     //executes once the last character of the word is reached
     if(depth == word.length())
     {
-        //unmark the last character as the end of a word
-        if(root->getEndOfWord())
+        if(root->getOccurrenceCount() > 1) //if there is more than 1 occurrence of the word, simply decrement its occurrence count
         {
-            root->setEndOfWord(false);
+            root->decrementOccurrenceCount();
+            return root;
         }
-
-        //if the last character does not have any children, delete it
-        if(!root->hasChildren())
+        else //if there is only 1 occurrence of the word, proceed to deletion of nodes
         {
-            delete root;
-            root = nullptr;
-        }
+            //unmark the last character as the end of a word
+            if(root->getEndOfWord())
+            {
+                root->setEndOfWord(false);
+                root->decrementOccurrenceCount();
+            }
 
-        return root;
+            //if the last character does not have any children, delete it
+            if(!root->hasChildren())
+            {
+                delete root;
+                root = nullptr;
+            }
+
+            return root;
+        }
     }
 
     int index = word[depth] - 'a'; //get the index of the current character
@@ -152,7 +183,7 @@ Node *Trie::clearHelper(Node *root)
     return root;
 }
 
-Node *Trie::searchHelper(std::string word)
+Node *Trie::searchHelper(std::string word) const
 {
     Node *curr_ptr = root_ptr_; //pointer that will be used to traverse the tree
 
@@ -173,7 +204,7 @@ Node *Trie::searchHelper(std::string word)
     return curr_ptr;
 }
 
-int Trie::wordCountHelper(Node *root)
+int Trie::wordCountHelper(Node *root) const
 {
     int total = 0;
 
@@ -193,7 +224,7 @@ int Trie::wordCountHelper(Node *root)
     return total;
 }
 
-void Trie::displayHelper(Node *root, char word_array[], int pos)
+void Trie::displayHelper(Node *root, char word_array[], int pos) const
 {
     //if the current node is marked as the end of a word, print every character in the array
     if(root->getEndOfWord())
