@@ -39,8 +39,6 @@ int main()
     //myTrie.remove("theoretical"); //shares prefix with other words
     //myTrie.insert("zebra"); //test; insert after remove
 
-    //myTrie.testArrayDisplay();
-
     cout << "Is Empty: " << myTrie.isEmpty() << endl;
     cout << "Word Count: " << myTrie.getWordCount() << endl;
     cout << "Prefix Count: " << myTrie.getPrefixCount("ap") << endl;

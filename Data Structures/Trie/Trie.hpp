@@ -49,14 +49,14 @@ public:
     int getWordCount() const;
 
     /*
-        checks the trie for words that begin with the specified prefix
+        counts the number of words in the trie that start with the specified prefix
         @param prefix, the prefix to search for
         @return an integer representing the number of words that begin with the prefix
     */
     int getPrefixCount(std::string prefix) const;
 
     /*
-        returns the numbe of occurences of the specified word
+        returns the number of occurrences of the specified word
         @param word, word to find the occurrence count of
         @return an integer representing the occurrence count of the word
     */

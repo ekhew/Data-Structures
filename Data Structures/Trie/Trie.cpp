@@ -32,7 +32,7 @@ void Trie::insert(std::string new_word)
     }
 
     curr_ptr->setEndOfWord(true); //mark the last character as the end of the word
-    curr_ptr->incrementOccurrenceCount(); //increment the occurence count of the word
+    curr_ptr->incrementOccurrenceCount(); //increment the occurrence count of the word
 }
 
 void Trie::remove(std::string word)
@@ -79,7 +79,7 @@ int Trie::getOccurrenceCount(std::string word) const
         char c = word[i]; //extract the current character in the word and store into 'c'
         int index = c - 'a'; //index of the current character
 
-        //if a character does not exist, then the word does not exist, so occurence count is '0'
+        //if a character does not exist, then the word does not exist, so occurrence count is '0'
         if(curr_ptr->children_[index] == nullptr)
         {
             return 0;
