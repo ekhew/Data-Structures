@@ -65,12 +65,14 @@ public:
         displays all the words currently in the trie
     */
     void display();
+
+    void testArrayDisplay();
 private:
     Node *root_ptr_; //pointer to the root node of the trie
 
     /*
         removes a word from the trie
-        @param root, current node in the traversal
+        @param root, the current node being visited
         @param word, the word to remove
         @param depth, current depth of the traversal
         @return pointer to the node that was just modified
@@ -79,18 +81,10 @@ private:
 
     /*
         removes every word currently in the trie
-        @param root, root of the subtree
+        @param root, current node being visited
         @return pointer to the node that was just modified
     */
     Node *clearHelper(Node *root);
-
-    /*
-        displays all the words currently in the trie
-        @param root, root node of the subtree
-        @param word_array[], array used to build words
-        @param pos, position in the word array
-    */
-    void displayHelper(Node *root, char word_array[], int pos);
 
     /*
         checks the trie for the existence of a specified word or prefix
@@ -105,6 +99,14 @@ private:
         @return integer representing the word count
     */
     int wordCountHelper(Node *root);
+
+    /*
+        displays all the words currently in the trie
+        @param root, current node being visited
+        @param word_array[], array used to build words
+        @param pos, current position in the word array
+    */
+    void displayHelper(Node *root, char word_array[], int pos);
 };
 
 #include "Trie.cpp"

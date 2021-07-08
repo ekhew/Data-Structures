@@ -6,6 +6,7 @@ Date Created: 7/4/2021
 */
 
 #include <string>
+#define array_size 26 //number of children in each node; should equal 'CHILDREN_' member in node class
 
 Trie::Trie()
 {
@@ -136,7 +137,7 @@ Node *Trie::clearHelper(Node *root)
 {
     if(root != nullptr) //can only traverse if the root is pointing to a node
     {
-        for(int i = 0; i < 26; i++) //traverse the trie and recursively call the function on each node
+        for(int i = 0; i < array_size; i++) //traverse the trie and recursively call the function on each node
         {
             root->children_[i] = clearHelper(root->children_[i]);
         }
@@ -149,28 +150,6 @@ Node *Trie::clearHelper(Node *root)
     }
 
     return root;
-}
-
-void Trie::displayHelper(Node *root, char word_array[], int pos)
-{
-    //if the current node is marked as the end of a word, print every character in the array
-    if(root->getEndOfWord())
-    {
-        for(int i = 0; i < pos; i++)
-        {
-            std::cout << word_array[i];
-        }
-        std::cout << std::endl;
-    }
-
-    for(int i = 0; i < 26; i++) //loop through the children of the node
-    {
-        if(root->children_[i] != nullptr)
-        {
-            word_array[pos] = i + 'a'; //insert the character to the word array
-            displayHelper(root->children_[i], word_array, pos + 1); //recursively call the function to continue building the word
-        }
-    }
 }
 
 Node *Trie::searchHelper(std::string word)
@@ -203,7 +182,7 @@ int Trie::wordCountHelper(Node *root)
         total++;
     }
 
-    for(int i = 0; i < 26; i++) //loop through every child of the root
+    for(int i = 0; i < array_size; i++) //loop through every child of the root
     {
         if(root->children_[i] != nullptr)
         {
@@ -212,4 +191,26 @@ int Trie::wordCountHelper(Node *root)
     }
 
     return total;
+}
+
+void Trie::displayHelper(Node *root, char word_array[], int pos)
+{
+    //if the current node is marked as the end of a word, print every character in the array
+    if(root->getEndOfWord())
+    {
+        for(int i = 0; i < pos; i++)
+        {
+            std::cout << word_array[i];
+        }
+        std::cout << std::endl;
+    }
+
+    for(int i = 0; i < array_size; i++) //loop through the children of the node
+    {
+        if(root->children_[i] != nullptr)
+        {
+            word_array[pos] = i + 'a'; //insert the character to the word array
+            displayHelper(root->children_[i], word_array, pos + 1); //recursively call the function to continue building the word
+        }
+    }
 }
