@@ -5,18 +5,18 @@ Description: Trie node class implementation.
 Date Created: 7/4/2021
 */
 
-Node::Node():character_('\0'), is_word_(false) { }
+Node::Node():character_('\0'), end_of_word_(false) { }
 
-Node::Node(char c):character_(c), is_word_(false) { }
+Node::Node(char c):character_(c), end_of_word_(false) { }
 
 void Node::setChar(char c)
 {
     character_ = c;
 }
 
-void Node::setIsWord(bool is_word)
+void Node::setEndOfWord(bool end_of_word)
 {
-    is_word_ = is_word;
+    end_of_word_ = end_of_word;
 }
 
 char Node::getChar()
@@ -24,16 +24,16 @@ char Node::getChar()
     return character_;
 }
 
-bool Node::getIsWord()
+bool Node::getEndOfWord()
 {
-    return is_word_;
+    return end_of_word_;
 }
 
 bool Node::hasChildren()
 {
     for(int i = 0; i < CHILDREN_; i++) //traverse through the entire array of pointers
     {
-        if(children_[i] != nullptr) //if a child is found, return false
+        if(children_[i] != nullptr) //if a child is found, return true
         {
             return true;
         }

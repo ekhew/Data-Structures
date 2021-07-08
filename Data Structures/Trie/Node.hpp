@@ -32,7 +32,7 @@ public:
         sets the ‘is_word_’ indicator to either true or false
         @param is_word, either true or false
     */
-    void setIsWord(bool is_word);
+    void setEndOfWord(bool end_of_word);
 
     /*
         returns the character of the calling node
@@ -44,7 +44,7 @@ public:
         returns the value of the boolean private member
         @return 'is_word_'
     */
-    bool getIsWord();
+    bool getEndOfWord();
 
     /*
         checks whether the node has any children
@@ -56,7 +56,7 @@ public:
     Node *children_[CHILDREN_]; //array of pointer to the children of the node
 private:
     char character_; //character that the node represents
-    bool is_word_; //true if the node represents the end of a word, and false otherwise
+    bool end_of_word_; //true if the node represents the end of a word, and false otherwise
 };
 
 #include "Node.cpp"

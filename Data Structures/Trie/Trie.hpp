@@ -79,11 +79,10 @@ private:
 
     /*
         removes every word currently in the trie
-        @param root, root node of the subtree
-        @param word_array[], array used to build words
-        @param pos, position in the word array
+        @param root, root of the subtree
+        @return pointer to the node that was just modified
     */
-    void clearHelper(Node *root, char word_array[], int pos);
+    Node *clearHelper(Node *root);
 
     /*
         displays all the words currently in the trie
