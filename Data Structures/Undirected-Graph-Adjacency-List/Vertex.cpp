@@ -22,3 +22,14 @@ ItemType Vertex<ItemType>::getItem() const
 {
     return item_;
 }
+
+template<typename ItemType>
+bool Vertex<ItemType>::operator < (const Vertex& v) const
+{
+    if(item_ < v.item_) //if the item of the calling vertex is less than the comparing vertex's item
+    {
+        return true;
+    }
+
+    return false;
+}

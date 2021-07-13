@@ -8,6 +8,9 @@ Date Created: 7/11/2021
 #ifndef GRAPH_H_
 #define GRAPH_H_
 
+#include <map>
+#include <list>
+
 template <class ItemType>
 class Graph
 {
@@ -16,12 +19,6 @@ public:
         default constructor
     */
     Graph();
-
-    /*
-        parameterized constructor
-        @param size, maximum number of vertices that graph can have
-    */
-    Graph(int size);
 
     /*
         adds a new vertex into the graph
@@ -68,10 +65,15 @@ public:
         @param item, the vertex to print every adjacent vertex of
     */
     void printAdjVertices(ItemType item) const;
+
+    /*
+        prints out every adjacency list that makes up the graph
+    */
+    void display();
 private:
     size_t vertices_; //number of vertices currently in the graph
     size_t edges_; //number of edges currently in the graph
-    std::list<Vertex<ItemType>> *vertex_list_; //array of linked lists
+    std::map<Vertex<ItemType>, std::list<Vertex<ItemType>>> graph_; //map of vertex - adjacency lists pairs
 };
 
 #include "Graph.cpp"
