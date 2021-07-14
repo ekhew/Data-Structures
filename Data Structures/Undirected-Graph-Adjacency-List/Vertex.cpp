@@ -33,3 +33,14 @@ bool Vertex<ItemType>::operator < (const Vertex& v) const
 
     return false;
 }
+
+template<typename ItemType>
+bool Vertex<ItemType>::operator == (const Vertex& v) const
+{
+    if(item_ == v.item_) //if the item of the calling vertex is equal to the comparing vertex's item
+    {
+        return true;
+    }
+
+    return false;
+}

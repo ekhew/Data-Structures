@@ -50,7 +50,7 @@ public:
         checks if the graph is currently empty
         @return true if the graph is empty, and false otherwise
     */
-    bool isEmpty();
+    bool isEmpty() const;
 
     /*
         checks if two specified vertices are adjacent
@@ -69,7 +69,7 @@ public:
     /*
         prints out every adjacency list that makes up the graph
     */
-    void display();
+    void display() const;
 private:
     size_t vertices_; //number of vertices currently in the graph
     size_t edges_; //number of edges currently in the graph

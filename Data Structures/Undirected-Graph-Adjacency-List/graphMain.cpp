@@ -19,12 +19,25 @@ int main()
     myGraph.addVertex("Bb");
     myGraph.addVertex("Cc");
     myGraph.addVertex("Dd");
-    myGraph.addVertex("Ee");
-
-    myGraph.addEdge("Aa", "Bb");
-    myGraph.addEdge("Aa", "Dd");
 
     //myGraph.removeVertex("Bb");
+    //myGraph.removeVertex("Zz"); //vertex does not exists
+
+    myGraph.addEdge("Aa", "Bb");
+    myGraph.addEdge("Bb", "Cc");
+    myGraph.addEdge("Cc", "Dd");
+    myGraph.addEdge("Dd", "Aa");
+    myGraph.addEdge("Yy", "Zz"); //vertices do not exists
+
+    //myGraph.removeEdge("Cc", "Dd");
+    //myGraph.removeEdge("Aa", "Cc"); //edge does not exist
+    //myGraph.removeEdge("Yy", "Zz"); //vertices do not exists
+
+    cout << "Is Empty: " << myGraph.isEmpty() << endl;
+    cout << "Check Adjacency: " << myGraph.checkAdj("Aa", "Dd") << endl;
+    cout << "Print Adjacent Vertices: ";
+    myGraph.printAdjVertices("Aa");
+    cout << endl << "Display: " << endl << endl;
 
     myGraph.display();
 }

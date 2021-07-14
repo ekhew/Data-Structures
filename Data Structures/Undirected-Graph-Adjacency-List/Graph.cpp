@@ -14,10 +14,10 @@ Graph<ItemType>::Graph():vertices_(0), edges_(0) { }
 template <typename ItemType>
 void Graph<ItemType>::addVertex(ItemType item)
 {
-    Vertex<ItemType> new_vertex = Vertex<ItemType>(item);
-    std::list<Vertex<ItemType>> new_list;
+    Vertex<ItemType> new_vertex = Vertex<ItemType>(item); //create a new vertex object with the specified item
+    std::list<Vertex<ItemType>> new_list; //create a new adjacency list that corresponds to the new vertex
 
-    graph_[new_vertex] = new_list;
+    graph_[new_vertex] = new_list; //insert a new key-value pair, 'pair<new_vertex, new_list>', into the graph
 }
 
 template <typename ItemType>
@@ -29,33 +29,96 @@ void Graph<ItemType>::removeVertex(ItemType item)
 template <typename ItemType>
 void Graph<ItemType>::addEdge(ItemType item1, ItemType item2)
 {
-    typename std::map<Vertex<ItemType>, std::list<Vertex<ItemType>>>::iterator i = graph_.find(Vertex<ItemType>(item1));
-    typename std::map<Vertex<ItemType>, std::list<Vertex<ItemType>>>::iterator j = graph_.find(Vertex<ItemType>(item2));
+    typename std::map<Vertex<ItemType>, std::list<Vertex<ItemType>>>::iterator i = graph_.find(Vertex<ItemType>(item1)); //find the vertex key with 'item1' and store into the iterator
+    typename std::map<Vertex<ItemType>, std::list<Vertex<ItemType>>>::iterator j = graph_.find(Vertex<ItemType>(item2)); //find the vertex key with 'item2' and store into the iterator
 
-    i->second.push_back(j->first);
-    j->second.push_back(i->first);
-}
-
-template <typename ItemType>
-bool Graph<ItemType>::isEmpty()
-{
-    return vertices_ == 0;
-}
-
-template <typename ItemType>
-void Graph<ItemType>::display()
-{
-    typename std::map<Vertex<ItemType>, std::list<Vertex<ItemType>>>::iterator i;
-
-    for(i = graph_.begin(); i != graph_.end(); i++)
+    if(!isEmpty() && i != graph_.end() && j != graph_.end()) //can only add an edge if graph is not empty and both vertices exist
     {
-        std::cout << i->first.getItem();
+        //insert each vertex object into the other's adjacency list
+        i->second.push_back(j->first);
+        j->second.push_back(i->first);
+    }
+}
 
-        for(auto j : i->second)
+template <typename ItemType>
+void Graph<ItemType>::removeEdge(ItemType item1, ItemType item2)
+{
+    typename std::map<Vertex<ItemType>, std::list<Vertex<ItemType>>>::iterator i = graph_.find(Vertex<ItemType>(item1)); //find the vertex key with 'item1' and store into the iterator
+    typename std::map<Vertex<ItemType>, std::list<Vertex<ItemType>>>::iterator j = graph_.find(Vertex<ItemType>(item2)); //find the vertex key with 'item2' and store into the iterator
+
+    if(!isEmpty() && i != graph_.end() && j != graph_.end()) //can only remove an edge if graph is not empty and both vertices exist
+    {
+        //remove each vertex object from the other's adjacency list
+        i->second.remove(j->first);
+        j->second.remove(i->first);
+    }
+}
+
+template <typename ItemType>
+bool Graph<ItemType>::isEmpty() const
+{
+    return graph_.empty();
+}
+
+template <typename ItemType>
+bool Graph<ItemType>::checkAdj(ItemType item1, ItemType item2) const
+{
+    typename std::map<Vertex<ItemType>, std::list<Vertex<ItemType>>>::const_iterator i = graph_.find(Vertex<ItemType>(item1)); //find the vertex key with 'item1' and store into the iterator
+    typename std::map<Vertex<ItemType>, std::list<Vertex<ItemType>>>::const_iterator j = graph_.find(Vertex<ItemType>(item2)); //find the vertex key with 'item1' and store into the iterator
+
+    if(!isEmpty() && i != graph_.end() && j != graph_.end()) //can only check adjacency if graph is not empty and both vertices exist
+    {
+        for(auto j : i->second) //loop through the adjacency list of the vertex with 'item1'
         {
-            std::cout << " --> " << j.getItem();
+            if(j.getItem() == item2) //if a matching item was found, then the vertices are adjacent
+            {
+                return true;
+            }
         }
+    }
 
-        std::cout << std::endl;
+    return false;
+}
+
+template <typename ItemType>
+void Graph<ItemType>::printAdjVertices(ItemType item) const
+{
+    typename std::map<Vertex<ItemType>, std::list<Vertex<ItemType>>>::const_iterator i = graph_.find(Vertex<ItemType>(item)); //find the vertex key with 'item' and store into the iterator
+
+    if(!isEmpty() && i != graph_.end()) //can only print adjacent vertices if graph is not empty and vertex exist
+    {
+        for(auto j : i->second) //loop through the adjacency list of the vertex with 'item1'
+        {
+            std::cout << j.getItem() << " ";
+        }
+    }
+    else
+    {
+        std::cout << "Vertex does not exist!";
+    }
+}
+
+template <typename ItemType>
+void Graph<ItemType>::display() const
+{
+    if(!isEmpty()) //can only print if the graph is not empty
+    {
+        typename std::map<Vertex<ItemType>, std::list<Vertex<ItemType>>>::const_iterator i; //iterator used to traverse the graph
+
+        for(i = graph_.begin(); i != graph_.end(); i++)
+        {
+            std::cout << i->first.getItem(); //print the key of the current element
+
+            for(auto j : i->second) //print every element in the adjacency list
+            {
+                std::cout << " --> " << j.getItem();
+            }
+
+            std::cout << std::endl;
+        }
+    }
+    else
+    {
+        std::cout << "Graph is empty!" << std::endl;
     }
 }

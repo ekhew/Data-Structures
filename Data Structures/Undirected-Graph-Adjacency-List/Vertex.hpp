@@ -40,6 +40,13 @@ public:
         @return true if the parameter vertex is less than the calling vertex, and false otherwise
     */
     bool operator < (const Vertex& v) const;
+
+    /*
+        operator overload of '=='
+        @param v, vertex to compare with the calling vertex
+        @return true if the parameter vertex is equal to the calling vertex, and false otherwise
+    */
+    bool operator == (const Vertex& v) const;
 private:
     ItemType item_; //item that is stored in the vertex
 };
