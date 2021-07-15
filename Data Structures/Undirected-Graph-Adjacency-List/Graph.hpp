@@ -67,6 +67,18 @@ public:
     void printAdjVertices(ItemType item) const;
 
     /*
+        traverses the graph using BFS and prints every vertex
+        @param start, the vertex to start the traversal from
+    */
+    void breadthFirstSearch(ItemType start) const;
+
+    /*
+        traverses the graph using DFS and prints every vertex
+        @param start, the vertex to start the traversal from
+    */
+    void depthFirstSearch(ItemType start) const;
+
+    /*
         prints out every adjacency list that makes up the graph
     */
     void display() const;

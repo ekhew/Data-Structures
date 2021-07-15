@@ -7,6 +7,8 @@ Date Created: 7/11/2021
 
 #include <map>
 #include <list>
+#include <queue> //for BFS
+#include <stack> //for DFS
 
 template <typename ItemType>
 Graph<ItemType>::Graph():vertices_(0), edges_(0) { }
@@ -94,7 +96,85 @@ void Graph<ItemType>::printAdjVertices(ItemType item) const
     }
     else
     {
-        std::cout << "Vertex does not exist!";
+        std::cout << "Vertex not found!";
+    }
+}
+
+template <typename ItemType>
+void Graph<ItemType>::breadthFirstSearch(ItemType start) const
+{
+    std::queue<Vertex<ItemType>> Q; //queue used to keep track of unvisited vertices
+    std::map<Vertex<ItemType>, bool> visited_map; //map used to keep track of visited vertices; key = vertex and value = 'true'
+
+    typename std::map<Vertex<ItemType>, std::list<Vertex<ItemType>>>::const_iterator i = graph_.find(Vertex<ItemType>(start)); //find the starting vertex
+
+    if(i != graph_.end()) //can only begin BFS if the starting vertex exists
+    {
+        Q.push(i->first); //push the starting vertex into queue
+        visited_map[i->first] = true; //mark starting vertex as visited
+
+        while(!Q.empty()) //continue traversing while the queue is not empty
+        {
+            Vertex<ItemType> curr_vertex = Q.front(); //vertex at the front of the queue
+            std::cout << curr_vertex.getItem() << " ";
+            Q.pop();
+
+            typename std::map<Vertex<ItemType>, std::list<Vertex<ItemType>>>::const_iterator j = graph_.find(Vertex<ItemType>(curr_vertex)); //find the current vertex to get its list
+
+            for(auto adj_vertex : j->second) //traverse the current vertex's adjacency list
+            {
+                typename std::map<Vertex<ItemType>, bool>::const_iterator k = visited_map.find(Vertex<ItemType>(adj_vertex)); //check to see if the vertex has already been visited
+
+                if(k == visited_map.end()) //if the adjacent vertex was not found in the 'visited' map, then push to queue and mark as visited
+                {
+                    Q.push(adj_vertex);
+                    visited_map[adj_vertex] = true;
+                }
+            }
+        }
+    }
+    else
+    {
+        std::cout << "Start vertex not found!";
+    }
+}
+
+template <typename ItemType>
+void Graph<ItemType>::depthFirstSearch(ItemType start) const
+{
+    std::stack<Vertex<ItemType>> S; //stack used to keep track of unvisited vertices
+    std::map<Vertex<ItemType>, bool> visited_map; //map used to keep track of visited vertices; key = vertex and value = 'true'
+
+    typename std::map<Vertex<ItemType>, std::list<Vertex<ItemType>>>::const_iterator i = graph_.find(Vertex<ItemType>(start)); //find the starting vertex
+
+    if(i != graph_.end()) //can only begin DFS if the starting vertex exists
+    {
+        S.push(i->first); //push the starting vertex into stack
+        visited_map[i->first] = true; //mark starting vertex as visited
+
+        while(!S.empty()) //continue traversing while the stack is not empty
+        {
+            Vertex<ItemType> curr_vertex = S.top(); //vertex at the top of the stack
+            std::cout << curr_vertex.getItem() << " ";
+            S.pop();
+
+            typename std::map<Vertex<ItemType>, std::list<Vertex<ItemType>>>::const_iterator j = graph_.find(Vertex<ItemType>(curr_vertex)); //find the current vertex to get its list
+
+            for(auto adj_vertex : j->second) //traverse the current vertex's adjacency list
+            {
+                typename std::map<Vertex<ItemType>, bool>::const_iterator k = visited_map.find(Vertex<ItemType>(adj_vertex)); //check to see if the vertex has already been visited
+
+                if(k == visited_map.end()) //if the adjacent vertex was not found in the 'visited' map, then push to stack and mark as visited
+                {
+                    S.push(adj_vertex); //Note: the first element of the list is pushed first, so it will be the last element of the list visited in the stack
+                    visited_map[adj_vertex] = true;
+                }
+            }
+        }
+    }
+    else
+    {
+        std::cout << "Start vertex not found!";
     }
 }
 
