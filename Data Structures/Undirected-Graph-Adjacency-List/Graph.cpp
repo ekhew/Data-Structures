@@ -11,7 +11,7 @@ Date Created: 7/11/2021
 #include <stack> //for DFS
 
 template <typename ItemType>
-Graph<ItemType>::Graph():vertices_(0), edges_(0) { }
+Graph<ItemType>::Graph() { }
 
 template <typename ItemType>
 void Graph<ItemType>::addVertex(ItemType item)
@@ -66,7 +66,7 @@ template <typename ItemType>
 bool Graph<ItemType>::checkAdj(ItemType item1, ItemType item2) const
 {
     typename std::map<Vertex<ItemType>, std::list<Vertex<ItemType>>>::const_iterator i = graph_.find(Vertex<ItemType>(item1)); //find the vertex key with 'item1' and store into the iterator
-    typename std::map<Vertex<ItemType>, std::list<Vertex<ItemType>>>::const_iterator j = graph_.find(Vertex<ItemType>(item2)); //find the vertex key with 'item1' and store into the iterator
+    typename std::map<Vertex<ItemType>, std::list<Vertex<ItemType>>>::const_iterator j = graph_.find(Vertex<ItemType>(item2)); //find the vertex key with 'item2' and store into the iterator
 
     if(!isEmpty() && i != graph_.end() && j != graph_.end()) //can only check adjacency if graph is not empty and both vertices exist
     {
@@ -181,7 +181,7 @@ void Graph<ItemType>::iterativeDFS(ItemType start) const
 template <typename ItemType>
 void Graph<ItemType>::recursiveDFS(ItemType start) const
 {
-    typename std::map<Vertex<ItemType>, std::list<Vertex<ItemType>>>::const_iterator i = graph_.find(Vertex<ItemType>(start));
+    typename std::map<Vertex<ItemType>, std::list<Vertex<ItemType>>>::const_iterator i = graph_.find(Vertex<ItemType>(start)); //search for the start vertex
 
     if(i != graph_.end()) //can only begin DFS if the starting vertex exists
     {

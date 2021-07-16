@@ -79,7 +79,7 @@ public:
     void iterativeDFS(ItemType start) const;
 
     /*
-        traverses the graph using DFS and prints every vertex; recursive approach
+        raverses the graph using DFS and prints every vertex; recursive approach
         @param start, the vertex to start the traversal from
     */
     void recursiveDFS(ItemType start) const;
@@ -89,8 +89,6 @@ public:
     */
     void display() const;
 private:
-    size_t vertices_; //number of vertices currently in the graph
-    size_t edges_; //number of edges currently in the graph
     std::map<Vertex<ItemType>, std::list<Vertex<ItemType>>> graph_; //map of vertex - adjacency lists pairs
 
     /*
