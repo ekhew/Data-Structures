@@ -37,12 +37,14 @@ int main()
 
     cout << "Is Empty: " << myGraph.isEmpty() << endl;
     cout << "Check Adjacency: " << myGraph.checkAdj("Aa", "Dd") << endl;
-    cout << "Print Adjacent Vertices: ";
+    cout << "Adjacent Vertices: ";
     myGraph.printAdjVertices("Aa");
     cout << endl << "BFS: ";
-    myGraph.breadthFirstSearch("Aa");
-    cout << endl << "DFS: ";
-    myGraph.depthFirstSearch("Aa");
+    myGraph.BFS("Aa");
+    cout << endl << "DFS (Iterative): ";
+    myGraph.iterativeDFS("Aa");
+    cout << endl << "DFS (Recursive): ";
+    myGraph.recursiveDFS("Aa");
     cout << endl << "Display: " << endl << endl;
 
     myGraph.display();

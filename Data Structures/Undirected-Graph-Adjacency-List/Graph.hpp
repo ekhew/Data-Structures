@@ -70,13 +70,19 @@ public:
         traverses the graph using BFS and prints every vertex
         @param start, the vertex to start the traversal from
     */
-    void breadthFirstSearch(ItemType start) const;
+    void BFS(ItemType start) const;
 
     /*
-        traverses the graph using DFS and prints every vertex
+        traverses the graph using DFS and prints every vertex; iterative approach
         @param start, the vertex to start the traversal from
     */
-    void depthFirstSearch(ItemType start) const;
+    void iterativeDFS(ItemType start) const;
+
+    /*
+        traverses the graph using DFS and prints every vertex; recursive approach
+        @param start, the vertex to start the traversal from
+    */
+    void recursiveDFS(ItemType start) const;
 
     /*
         prints out every adjacency list that makes up the graph
@@ -86,6 +92,13 @@ private:
     size_t vertices_; //number of vertices currently in the graph
     size_t edges_; //number of edges currently in the graph
     std::map<Vertex<ItemType>, std::list<Vertex<ItemType>>> graph_; //map of vertex - adjacency lists pairs
+
+    /*
+        traverses the graph using DFS and prints every vertex; recursive approach
+        @param curr_vertex, the current vertex being visited
+        @param visited_map, map used to keep track of visited vertices; key = vertex and value = 'true'
+    */
+    void recursiveDFSHelper(ItemType curr_vertex, std::map<Vertex<ItemType>, bool> *visited_map) const;
 };
 
 #include "Graph.cpp"

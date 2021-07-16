@@ -101,7 +101,7 @@ void Graph<ItemType>::printAdjVertices(ItemType item) const
 }
 
 template <typename ItemType>
-void Graph<ItemType>::breadthFirstSearch(ItemType start) const
+void Graph<ItemType>::BFS(ItemType start) const
 {
     std::queue<Vertex<ItemType>> Q; //queue used to keep track of unvisited vertices
     std::map<Vertex<ItemType>, bool> visited_map; //map used to keep track of visited vertices; key = vertex and value = 'true'
@@ -140,7 +140,7 @@ void Graph<ItemType>::breadthFirstSearch(ItemType start) const
 }
 
 template <typename ItemType>
-void Graph<ItemType>::depthFirstSearch(ItemType start) const
+void Graph<ItemType>::iterativeDFS(ItemType start) const
 {
     std::stack<Vertex<ItemType>> S; //stack used to keep track of unvisited vertices
     std::map<Vertex<ItemType>, bool> visited_map; //map used to keep track of visited vertices; key = vertex and value = 'true'
@@ -175,6 +175,42 @@ void Graph<ItemType>::depthFirstSearch(ItemType start) const
     else
     {
         std::cout << "Start vertex not found!";
+    }
+}
+
+template <typename ItemType>
+void Graph<ItemType>::recursiveDFS(ItemType start) const
+{
+    typename std::map<Vertex<ItemType>, std::list<Vertex<ItemType>>>::const_iterator i = graph_.find(Vertex<ItemType>(start));
+
+    if(i != graph_.end()) //can only begin DFS if the starting vertex exists
+    {
+        std::map<Vertex<ItemType>, bool> visited_map; //map used to keep track of visited vertices; key = vertex and value = 'true'
+
+        recursiveDFSHelper(start, &visited_map);
+    }
+    else
+    {
+        std::cout << "Start vertex not found!";
+    }
+}
+
+template <typename ItemType>
+void Graph<ItemType>::recursiveDFSHelper(ItemType curr_vertex, std::map<Vertex<ItemType>, bool> *visited_map) const
+{
+    typename std::map<Vertex<ItemType>, std::list<Vertex<ItemType>>>::const_iterator i = graph_.find(Vertex<ItemType>(curr_vertex)); //find the current vertex
+    (*visited_map)[i->first] = true; //mark current vertex as visited
+
+    std::cout << i->first.getItem() << " ";
+
+    for(auto adj_vertex : i->second) //traverse through the current vertex's adjacency list
+    {
+        typename std::map<Vertex<ItemType>, bool>::const_iterator k = visited_map->find(Vertex<ItemType>(adj_vertex)); //check to see if the vertex has already been visited
+
+        if(k == visited_map->end())
+        {
+            recursiveDFSHelper(adj_vertex.getItem(), visited_map); //recursively call the function if the vertex has not been visited already
+        }
     }
 }
 
