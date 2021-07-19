@@ -38,6 +38,10 @@ int main()
     myGraph.printAdjVertices("Bb");
     cout << endl << "BFS: ";
     myGraph.BFS("Aa");
+    cout << endl << "DFS (Iterative): ";
+    myGraph.iterativeDFS("Aa");
+    cout << endl << "DFS (Recursive): ";
+    myGraph.recursiveDFS("Aa");
     cout << endl << "Display: " << endl << endl;
 
     myGraph.display();

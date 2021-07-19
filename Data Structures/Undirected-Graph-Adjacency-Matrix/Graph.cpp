@@ -7,6 +7,7 @@ Date Created: 7/16/2021
 
 #include <map>
 #include <queue> //for BFS
+#include <stack> //for DFS
 
 template <typename ItemType>
 Graph<ItemType>::Graph():vertex_count_(3), next_index_(0)
@@ -155,7 +156,7 @@ void Graph<ItemType>::BFS(ItemType start) const
 
         while(!Q.empty()) //continue traversing while the queue is not empty
         {
-            Vertex<ItemType> curr_vertex = Q.front(); //vertex at the front of the queue
+            Vertex<ItemType> curr_vertex = Q.front();
             std::cout << curr_vertex.getItem() << " ";
             Q.pop();
 
@@ -163,10 +164,10 @@ void Graph<ItemType>::BFS(ItemType start) const
 
             while(j != vertex_map_.end())
             {
-                typename std::map<Vertex<ItemType>, int>::const_iterator g = vertex_map_.find(Vertex<ItemType>(curr_vertex)); //find the row index of the current vertex
-                typename std::map<Vertex<ItemType>, bool>::const_iterator k = visited_map.find(Vertex<ItemType>(j->first)); //check if the vertex in the column has already been visited
+                typename std::map<Vertex<ItemType>, bool>::const_iterator k = visited_map.find(Vertex<ItemType>(j->first)); //check if the vertex in the current index has already been visited
+                typename std::map<Vertex<ItemType>, int>::const_iterator l = vertex_map_.find(Vertex<ItemType>(curr_vertex)); //find the row index of the current vertex
 
-                if(k == visited_map.end() && matrix_[g->second][j->second] == 1)
+                if(k == visited_map.end() && matrix_[l->second][j->second] == 1)
                 {
                     Q.push(j->first);
                     visited_map[j->first] = true;
@@ -179,6 +180,89 @@ void Graph<ItemType>::BFS(ItemType start) const
     else
     {
         std::cout << "Start vertex not found!";
+    }
+}
+
+template <typename ItemType>
+void Graph<ItemType>::iterativeDFS(ItemType start) const
+{
+    std::stack<Vertex<ItemType>> S; //stack used to keep track of unvisited vertices
+    std::map<Vertex<ItemType>, bool> visited_map; //map used to keep track of visited vertices; key = vertex and value = 'true'
+
+    typename std::map<Vertex<ItemType>, int>::const_iterator i = vertex_map_.find(Vertex<ItemType>(start)); //find the starting vertex
+
+    if(i != vertex_map_.end()) //can only begin DFS if the starting vertex exists
+    {
+        S.push(i->first); //push the starting vertex into stack
+        visited_map[i->first] = true; //mark starting vertex as visited
+
+        while(!S.empty()) //continue traversing while the stack is not empty
+        {
+            Vertex<ItemType> curr_vertex = S.top();
+            std::cout << curr_vertex.getItem() << " ";
+            S.pop();
+
+            typename std::map<Vertex<ItemType>, int>::const_iterator j = vertex_map_.begin(); //iterates through every index of a row
+
+            while(j != vertex_map_.end())
+            {
+                typename std::map<Vertex<ItemType>, bool>::const_iterator k = visited_map.find(Vertex<ItemType>(j->first)); //check if the vertex in the current index has already been visited
+                typename std::map<Vertex<ItemType>, int>::const_iterator l = vertex_map_.find(Vertex<ItemType>(curr_vertex)); //find the row index of the current vertex
+
+                if(k == visited_map.end() && matrix_[l->second][j->second] == 1)
+                {
+                    S.push(j->first);
+                    visited_map[j->first] = true;
+                }
+
+                j++;
+            }
+        }
+    }
+    else
+    {
+        std::cout << "Start vertex not found!";
+    }
+}
+
+template <typename ItemType>
+void Graph<ItemType>::recursiveDFS(ItemType start) const
+{
+    typename std::map<Vertex<ItemType>, int>::const_iterator i = vertex_map_.find(Vertex<ItemType>(start)); //search for the start vertex
+
+    if(i != vertex_map_.end()) //can only begin DFS if the starting vertex exists
+    {
+        std::map<Vertex<ItemType>, bool> visited_map; //map used to keep track of visited vertices; key = vertex and value = 'true'
+
+        recursiveDFSHelper(start, &visited_map);
+    }
+    else
+    {
+        std::cout << "Start vertex not found!";
+    }
+}
+
+template <typename ItemType>
+void Graph<ItemType>::recursiveDFSHelper(ItemType curr_vertex, std::map<Vertex<ItemType>, bool> *visited_map) const
+{
+    typename std::map<Vertex<ItemType>, int>::const_iterator i = vertex_map_.find(Vertex<ItemType>(curr_vertex)); //find the current vertex
+    (*visited_map)[i->first] = true; //mark current vertex as visited
+
+    std::cout << i->first.getItem() << " ";
+
+    typename std::map<Vertex<ItemType>, int>::const_iterator j = vertex_map_.begin(); //iterates through every index of a row
+
+    while(j != vertex_map_.end())
+    {
+        typename std::map<Vertex<ItemType>, bool>::const_iterator k = visited_map->find(Vertex<ItemType>(j->first)); //check if the vertex in the current index has already been visited
+        typename std::map<Vertex<ItemType>, int>::const_iterator l = vertex_map_.find(Vertex<ItemType>(curr_vertex)); //find the row index of the current vertex
+
+        if(k == visited_map->end() && matrix_[l->second][j->second] == 1)
+        {
+            recursiveDFSHelper(j->first.getItem(), visited_map); //recursively call the function if the vertex has not been visited already and an edge exists
+        }
+
+        j++;
     }
 }
 
