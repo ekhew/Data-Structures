@@ -1,8 +1,8 @@
 /*
-Title: Undirected Graph (Adjacency Matrix)
+Title: Digraph (Adjacency Matrix)
 Author: Edwin Khew
-Description: Undirected graph (adjacency matrix) class declaration.
-Date Created: 7/16/2021
+Description: Digraph (adjacency matrix) class declaration.
+Date Created: 7/18/2021
 */
 
 #ifndef GRAPH_H_
