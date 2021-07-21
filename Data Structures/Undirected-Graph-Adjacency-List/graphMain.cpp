@@ -21,15 +21,15 @@ int main()
     myGraph.addVertex("Dd");
     myGraph.addVertex("Ee");
 
-    //myGraph.removeVertex("Bb");
-    //myGraph.removeVertex("Zz"); //vertex does not exists
-
     myGraph.addEdge("Aa", "Bb");
     myGraph.addEdge("Aa", "Cc");
     myGraph.addEdge("Aa", "Dd");
     myGraph.addEdge("Bb", "Cc");
     myGraph.addEdge("Cc", "Ee");
     myGraph.addEdge("Yy", "Zz"); //vertices do not exists
+
+    //myGraph.removeVertex("Bb");
+    //myGraph.removeVertex("Zz"); //vertex does not exists
 
     //myGraph.removeEdge("Cc", "Dd");
     //myGraph.removeEdge("Aa", "Cc"); //edge does not exist

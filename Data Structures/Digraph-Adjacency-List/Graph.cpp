@@ -25,7 +25,18 @@ void Graph<ItemType>::addVertex(ItemType item)
 template <typename ItemType>
 void Graph<ItemType>::removeVertex(ItemType item)
 {
-    graph_.erase(Vertex<ItemType>(item));
+    if(!isEmpty()) //can only remove vertex if the graph is not empty
+    {
+        graph_.erase(Vertex<ItemType>(item)); //erase the vertex with the specified item from the map
+
+        typename std::map<Vertex<ItemType>, std::list<Vertex<ItemType>>>::iterator i; //iterator used to traverse the graph
+
+        //for every vertex currently in the map, remove any instance of the vertex to be removed from its adjacency list
+        for(i = graph_.begin(); i != graph_.end(); i++)
+        {
+            i->second.remove(Vertex<ItemType>(item));
+        }
+    }
 }
 
 template <typename ItemType>

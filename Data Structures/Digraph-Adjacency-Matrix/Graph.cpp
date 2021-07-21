@@ -89,7 +89,7 @@ void Graph<ItemType>::removeEdge(ItemType item1, ItemType item2)
 
     if(!isEmpty() && i != vertex_map_.end() && j != vertex_map_.end())
     {
-        matrix_[i->second][j->second] = 0;
+        matrix_[i->second][j->second] = NULL_EDGE_;
     }
 }
 
