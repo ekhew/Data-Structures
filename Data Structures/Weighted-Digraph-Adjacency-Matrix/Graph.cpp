@@ -277,20 +277,55 @@ template <typename ItemType>
 void Graph<ItemType>::dijkstra(ItemType source) const
 {
     int paths[vertex_count_]; //array to store the shortest paths
+    bool visited[vertex_count_]; //array used to keep track of visited vertices
 
-    //initialize every shortest path to 'INT_MAX'
+    //initialize every shortest path to 'INT_MAX', and every vertex to 'false' to mark as unvisited
     for(int i = 0; i < vertex_count_; i++)
     {
         paths[i] = INT_MAX;
+        visited[i] = false;
     }
 
-    typename std::map<Vertex<ItemType>, int>::const_iterator i = vertex_map_.find(Vertex<ItemType>(source));
-    paths[i->second] = 0; //distance from the source to itself is '0'
+    typename std::map<Vertex<ItemType>, int>::const_iterator v = vertex_map_.find(Vertex<ItemType>(source));
+    paths[v->second] = 0; //distance from the source to itself is '0'
 
     for(int i = 0; i < vertex_count_ - 1; i++)
     {
+        int min = minDistance(paths, visited); //index of the unvisited vertex with the current smallest path
+        visited[min] = true; //mark the vertex as visited
 
+        for(int j = 0; j < vertex_count_; j++) //relax every adjacent vertex, if possible
+        {
+            if (!visited[j] && matrix_[min][j] && paths[min] != INT_MAX && paths[min] + matrix_[min][j] < paths[j]) //if the adjacent vertex is not already visited, an edge exists
+            {
+                paths[j] = paths[min] + matrix_[min][j];
+            }
+        }
     }
+
+    for(int i = 0; i < vertex_count_; i++)
+    {
+        std::cout << paths[i] << " ";
+    }
+    std::cout << std::endl;
+}
+
+template <typename ItemType>
+int Graph<ItemType>::minDistance(int paths[], bool visited[]) const
+{
+    int min = INT_MAX; //current minimum path
+    int min_index; //index of the current minimum path
+
+    for(int i = 0; i < vertex_count_; i++)
+    {
+        if(visited[i] == false && paths[i] <= min)
+        {
+            min = paths[i];
+            min_index = i;
+        }
+    }
+
+    return min_index;
 }
 
 template <typename ItemType>

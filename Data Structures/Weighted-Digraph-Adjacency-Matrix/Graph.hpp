@@ -119,6 +119,14 @@ private:
         increases the size of the matrix to accommodate for more new vertices
     */
     void expandMatrix();
+
+    /*
+        Dijkstra's algorithm helper; finds the unvisited vertex with the smallest current path and returns its index
+        @param paths[], array of shortest paths
+        @param
+        @return
+    */
+    int minDistance(int paths[], bool visited[]) const;
 };
 
 #include "Graph.cpp"
