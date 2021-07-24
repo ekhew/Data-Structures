@@ -84,11 +84,18 @@ public:
     void recursiveDFS(ItemType start) const;
 
     /*
+        returns the current vertex count
+        @return 'vertex_count_'
+    */
+    int getVertexCount() const;
+
+    /*
         prints out every adjacency list that makes up the graph
     */
     void display() const;
 private:
-    int vertex_count_; //current number of vertices; number of rows and columns
+    int vertex_count_; //current number of vertices in the graph
+    int matrix_size_; //size of the matrix; number of rows and columns
     bool **matrix_; //adjacency matrix; dynamic 2D array
     static const int NULL_EDGE_ = 0; //for indices where an edge does not exist
     std::map<Vertex<ItemType>, int> vertex_map_; //map that associates a vertex with an index; key = vertex, value = index

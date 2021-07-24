@@ -33,6 +33,7 @@ int main()
     //myGraph.removeEdge("Cc", "Ee");
 
     cout << "Is Empty: " << myGraph.isEmpty() << endl;
+    cout << "Vertex Count: " << myGraph.getVertexCount() << endl;
     cout << "Check Adjacency: " << myGraph.checkAdj("Aa", "Cc") << endl;
     cout << "Adjacent Vertices: ";
     myGraph.printAdjVertices("Bb");
