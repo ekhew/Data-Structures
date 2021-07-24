@@ -50,4 +50,7 @@ int main()
     cout << endl << "Display: " << endl << endl;
 
     myGraph.display();
+
+    cout << endl << "Dijkstra's Algorithm: " << endl;
+    myGraph.dijkstra("Aa");
 }

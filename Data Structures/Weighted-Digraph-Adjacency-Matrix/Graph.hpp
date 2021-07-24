@@ -123,10 +123,16 @@ private:
     /*
         Dijkstra's algorithm helper; finds the unvisited vertex with the smallest current path and returns its index
         @param paths[], array of shortest paths
-        @param
-        @return
+        @param visited[], array used to keep track of visited vertices
+        @return index of the unvisited vertex with the shortest path
     */
     int minDistance(int paths[], bool visited[]) const;
+
+    /*
+        displays the resulting shortest paths of Dijkstra's algorithm
+        @param paths[], array of shortest paths
+    */
+    void dijkstraDisplay(int paths[]) const;
 };
 
 #include "Graph.cpp"

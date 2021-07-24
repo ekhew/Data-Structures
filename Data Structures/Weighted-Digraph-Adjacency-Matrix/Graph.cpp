@@ -286,7 +286,7 @@ void Graph<ItemType>::dijkstra(ItemType source) const
         visited[i] = false;
     }
 
-    typename std::map<Vertex<ItemType>, int>::const_iterator v = vertex_map_.find(Vertex<ItemType>(source));
+    typename std::map<Vertex<ItemType>, int>::const_iterator v = vertex_map_.find(Vertex<ItemType>(source)); //find the source vertex in the map to get its index
     paths[v->second] = 0; //distance from the source to itself is '0'
 
     for(int i = 0; i < vertex_count_ - 1; i++)
@@ -296,18 +296,15 @@ void Graph<ItemType>::dijkstra(ItemType source) const
 
         for(int j = 0; j < vertex_count_; j++) //relax every adjacent vertex, if possible
         {
-            if (!visited[j] && matrix_[min][j] && paths[min] != INT_MAX && paths[min] + matrix_[min][j] < paths[j]) //if the adjacent vertex is not already visited, an edge exists
+            //if the adjacent vertex is not already visited, an edge exists, and a new smaller path is found, set the new smallest path
+            if (!visited[j] && matrix_[min][j] != NULL_EDGE_ && paths[min] + matrix_[min][j] < paths[j])
             {
                 paths[j] = paths[min] + matrix_[min][j];
             }
         }
     }
 
-    for(int i = 0; i < vertex_count_; i++)
-    {
-        std::cout << paths[i] << " ";
-    }
-    std::cout << std::endl;
+    dijkstraDisplay(paths);
 }
 
 template <typename ItemType>
@@ -329,6 +326,28 @@ int Graph<ItemType>::minDistance(int paths[], bool visited[]) const
 }
 
 template <typename ItemType>
+void Graph<ItemType>::dijkstraDisplay(int paths[]) const
+{
+    typename std::map<Vertex<ItemType>, int>::const_iterator v; //iterator used for label printing
+
+    for(int i = 0; i < matrix_size_; i++)
+    {
+        if(i < vertex_count_) //indices that contain a vertex
+        {
+            for(v = vertex_map_.begin(); v != vertex_map_.end(); v++) //iterate through the vertex map
+            {
+                if(v->second == i) //when a vertex with the matching index is found, print the vertex and its shortest path
+                {
+                    std::cout << v->first.getItem() << " --> " << paths[i] << std::endl;
+                }
+            }
+
+            v = vertex_map_.begin(); //reset the iterator
+        }
+    }
+}
+
+template <typename ItemType>
 int Graph<ItemType>::getVertexCount() const
 {
     return vertex_count_;
@@ -337,7 +356,7 @@ int Graph<ItemType>::getVertexCount() const
 template <typename ItemType>
 void Graph<ItemType>::display() const
 {
-    typename std::map<Vertex<ItemType>, int>::const_iterator v = vertex_map_.begin(); //iterator used for label printing
+    typename std::map<Vertex<ItemType>, int>::const_iterator v; //iterator used for label printing
 
     if(!isEmpty()) //can only display if the graph is not empty
     {
@@ -346,20 +365,21 @@ void Graph<ItemType>::display() const
         //print top row labels (order based on index value of vertex)
         for(int i = 0; i < matrix_size_; i++)
         {
-            if(i < vertex_count_)
+            if(i < vertex_count_) //indices that contain a vertex
             {
-                for(v; v != vertex_map_.end(); v++)
+                for(v = vertex_map_.begin(); v != vertex_map_.end(); v++) //iterate through the vertex map
                 {
-                    if(v->second == i)
+                    if(v->second == i) //when a vertex with the matching index is found, print the vertex
                     {
                         std::cout << v->first.getItem() << " ";
                     }
                 }
-                v = vertex_map_.begin();
+
+                v = vertex_map_.begin(); //reset the iterator
             }
-            else
+            else //indices that do not contain a vertex
             {
-                std::cout << "## ";
+                std::cout << "-- ";
             }
         }
 
@@ -369,20 +389,21 @@ void Graph<ItemType>::display() const
         for(int i = 0; i < matrix_size_; i++)
         {
             //print left column label of current row (order based on index value of vertex)
-            if(i < vertex_count_)
+            if(i < vertex_count_) //indices that contain a vertex
             {
-                for(v; v != vertex_map_.end(); v++)
+                for(v = vertex_map_.begin(); v != vertex_map_.end(); v++) //iterate through the vertex map
                 {
-                    if(v->second == i)
+                    if(v->second == i) //when a vertex with the matching index is found, print the vertex
                     {
                         std::cout << v->first.getItem() << " ";
                     }
                 }
-                v = vertex_map_.begin();
+
+                v = vertex_map_.begin(); //reset the iterator
             }
-            else
+            else //indices that do not contain a vertex
             {
-                std::cout << "## ";
+                std::cout << "-- ";
             }
 
             //print matrix of current row
@@ -390,7 +411,7 @@ void Graph<ItemType>::display() const
             {
                 if(matrix_[i][j] == NULL_EDGE_) //if null, print 'x' instead of INT_MAX
                 {
-                    std::cout << "x  ";
+                    std::cout << "-  ";
                 }
                 else
                 {
